@@ -2,3 +2,5 @@ __MACOSX/
 build/
 j2meclasses/
 suite/
+nbproject/project.bak.xml
+nbproject/private/
