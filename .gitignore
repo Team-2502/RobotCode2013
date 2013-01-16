@@ -4,3 +4,5 @@ j2meclasses/
 suite/
 nbproject/project.bak.xml
 nbproject/private/
+.classpath
+.project
