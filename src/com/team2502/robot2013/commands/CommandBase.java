@@ -3,6 +3,7 @@ package com.team2502.robot2013.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.OI;
+import com.team2502.robot2013.subsystems.Drivetrain;
 import com.team2502.robot2013.subsystems.ExampleSubsystem;
 
 /**
@@ -13,6 +14,9 @@ import com.team2502.robot2013.subsystems.ExampleSubsystem;
  */
 public abstract class CommandBase extends Command {
 
+        
+    protected static Drivetrain drivetrain = new Drivetrain();
+    
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
