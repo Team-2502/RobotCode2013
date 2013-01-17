@@ -17,11 +17,19 @@ public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
-    private RobotDrive drive = new RobotDrive(RobotMap.FRONT_LEFT_DRIVE, RobotMap.FRONT_RIGHT_DRIVE, RobotMap.BACK_LEFT_DRIVE, RobotMap.BACK_RIGHT_DRIVE);
+    private RobotDrive drive;
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    /**
+     * Creates new 4 wheel RobotDrive using data from RobotMap and disables motor safety.
+     */
+    public Drivetrain() {
+        drive = new RobotDrive(RobotMap.FRONT_LEFT_DRIVE, RobotMap.FRONT_RIGHT_DRIVE, RobotMap.BACK_LEFT_DRIVE, RobotMap.BACK_RIGHT_DRIVE);
+        drive.setSafetyEnabled(false);
     }
     
     /**
