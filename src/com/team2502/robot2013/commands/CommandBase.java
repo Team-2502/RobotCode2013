@@ -3,7 +3,7 @@ package com.team2502.robot2013.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.OI;
-import com.team2502.robot2013.subsystems.ExampleSubsystem;
+import com.team2502.robot2013.subsystems.*;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -16,6 +16,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+    public static Drivetrain drivetrain = new Drivetrain();
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
