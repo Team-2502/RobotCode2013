@@ -1,6 +1,7 @@
 
 package com.team2502.robot2013;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 
@@ -40,5 +41,31 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
+    
+    public static final int JOYSTICK_1_PORT = 1;
+    public static final int Joystick_2_PORT = 2;
+    private Joystick joystick1;
+    private Joystick joystick2;
+    
+    public OI() {
+        joystick1 = new Joystick(JOYSTICK_1_PORT);
+        joystick2 = new Joystick(Joystick_2_PORT);
+    }
+    
+    /**
+     * Returns the joystick of the specified port.
+     * @param joystick - Which joystick to return.
+     * @return - Joystick object from specified port, or null for no joystick;
+     */
+    public Joystick getJoystick(int joystick) {
+        switch(joystick){
+            case 1:
+                return joystick1;
+            case 2:
+                return joystick2;
+            default:
+                return null;
+        }
+    }
 }
 
