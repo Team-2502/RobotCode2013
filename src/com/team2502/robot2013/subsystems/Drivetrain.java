@@ -5,6 +5,7 @@
 package com.team2502.robot2013.subsystems;
 
 import com.team2502.robot2013.RobotMap;
+import com.team2502.robot2013.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,6 +23,7 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new DriveWithJoystick());
     }
     
     /**
