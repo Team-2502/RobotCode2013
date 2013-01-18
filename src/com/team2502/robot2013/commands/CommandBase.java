@@ -13,6 +13,9 @@ import com.team2502.robot2013.subsystems.*;
  */
 public abstract class CommandBase extends Command {
 
+        
+    protected static Drivetrain drivetrain = new Drivetrain();
+    
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
