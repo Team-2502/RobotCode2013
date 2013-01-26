@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team2502.robot2013.subsystems;
 
 import com.team2502.robot2013.RobotMap;
@@ -30,7 +26,7 @@ public class Drivetrain extends Subsystem {
      * Creates new 4 wheel RobotDrive using data from RobotMap and disables motor safety.
      */
     public Drivetrain() {
-        drive = new RobotDrive(RobotMap.FRONT_LEFT_DRIVE, RobotMap.FRONT_RIGHT_DRIVE, RobotMap.BACK_LEFT_DRIVE, RobotMap.BACK_RIGHT_DRIVE);
+        drive = new RobotDrive(RobotMap.TOP_LEFT_DRIVE, RobotMap.TOP_RIGHT_DRIVE, RobotMap.BOTTOM_LEFT_DRIVE, RobotMap.BOTTOM_RIGHT_DRIVE);
         drive.setSafetyEnabled(false);
     }
     

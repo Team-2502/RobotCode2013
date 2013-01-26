@@ -1,13 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team2502.robot2013.commands;
 
-/**
- *
- * @author Virinchi
- */
+import com.team2502.robot2013.OI;
+
 public class DriveWithJoystick extends CommandBase {
     
     public DriveWithJoystick() {
@@ -16,7 +10,7 @@ public class DriveWithJoystick extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        drivetrain.driveWithJoystick(oi.getJoystick(1));
+        drivetrain.driveWithJoystick(OI.joystickLeft);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -1,4 +1,3 @@
-
 package com.team2502.robot2013;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -42,30 +41,14 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
     
-    public static final int JOYSTICK_1_PORT = 1;
-    public static final int Joystick_2_PORT = 2;
-    private Joystick joystick1;
-    private Joystick joystick2;
+    public static final int JOYSTICK_LEFT_PORT = 1;
+    public static final int JOYSTICK_RIGHT_PORT = 2;
+    public static Joystick joystickLeft;
+    public static Joystick joystickRight;
     
     public OI() {
-        joystick1 = new Joystick(JOYSTICK_1_PORT);
-        joystick2 = new Joystick(Joystick_2_PORT);
-    }
-    
-    /**
-     * Returns the joystick of the specified port.
-     * @param joystick - Which joystick to return.
-     * @return - Joystick object from specified port, or null for no joystick;
-     */
-    public Joystick getJoystick(int joystick) {
-        switch(joystick){
-            case 1:
-                return joystick1;
-            case 2:
-                return joystick2;
-            default:
-                return null;
-        }
+        joystickLeft = new Joystick(JOYSTICK_LEFT_PORT);
+        joystickRight = new Joystick(JOYSTICK_RIGHT_PORT);
     }
 }
 
