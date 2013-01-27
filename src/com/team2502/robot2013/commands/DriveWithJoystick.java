@@ -10,7 +10,7 @@ public class DriveWithJoystick extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        drivetrain.driveWithJoystick(OI.joystickLeft);
+        drivetrain.driveWithJoystick(OI.joystickLeft, OI.joystickRight);
     }
 
     // Called repeatedly when this Command is scheduled to run
