@@ -4,6 +4,7 @@ import com.team2502.robot2013.RobotMap;
 import com.team2502.robot2013.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -14,6 +15,10 @@ public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
+    private Talon topLeft = new Talon(RobotMap.TOP_LEFT_DRIVE);
+    private Talon bottomLeft = new Talon(RobotMap.BOTTOM_LEFT_DRIVE);
+    private Talon topRight = new Talon(RobotMap.TOP_RIGHT_DRIVE);
+    private Talon bottomRight = new Talon(RobotMap.BOTTOM_RIGHT_DRIVE);
     private RobotDrive drive;
     
     public void initDefaultCommand() {
@@ -26,12 +31,13 @@ public class Drivetrain extends Subsystem {
      * Creates new 4 wheel RobotDrive using data from RobotMap and disables motor safety.
      */
     public Drivetrain() {
-        drive = new RobotDrive(RobotMap.TOP_LEFT_DRIVE, RobotMap.TOP_RIGHT_DRIVE, RobotMap.BOTTOM_LEFT_DRIVE, RobotMap.BOTTOM_RIGHT_DRIVE);
+        drive = new RobotDrive(topLeft, bottomLeft, topRight, bottomRight);
         drive.setSafetyEnabled(false);
     }
     
     /**
      * Drive using one joystick using arcade drive.
+     * WARNING - Do not use with robots with a tank drive!
      * @param joystick The joystick.
      */
     public void driveWithJoystick(Joystick joystick) {
@@ -72,6 +78,7 @@ public class Drivetrain extends Subsystem {
     }
     /**
      * Drives robot using speed and turn value.
+     * WARNING - Do not use with robots with a tank drive!
      * @param speed Speed for robot.
      * @param turn Turn value for movement.
      */
