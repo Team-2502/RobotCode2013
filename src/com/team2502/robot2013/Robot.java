@@ -24,6 +24,7 @@ import com.team2502.robot2013.commands.*;
 public class Robot extends IterativeRobot {
 
     Command autonomousCommand;
+    Command driveWithJoystick;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
         // autonomousCommand = new ExampleCommand();
 
         // Initialize all subsystems
+        driveWithJoystick = new DriveWithJoystick();
         CommandBase.init();
     }
 
@@ -55,6 +57,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         autonomousCommand.cancel();
+        driveWithJoystick.start();
     }
 
     /**
