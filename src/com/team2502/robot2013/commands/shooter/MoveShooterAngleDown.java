@@ -13,19 +13,10 @@ import com.team2502.robot2013.commands.CommandBase;
  */
 public class MoveShooterAngleDown extends CommandBase {
 	
-	private boolean leftTriggered;
-	
 	public MoveShooterAngleDown() {
-		this.leftTriggered = false;
 		requires(shooter);
 	}
 	
-	public MoveShooterAngleDown(boolean leftTriggered) {
-		this.leftTriggered = leftTriggered;
-		requires(shooter);
-		requires(driveTrain);
-	}
-
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		
@@ -33,10 +24,7 @@ public class MoveShooterAngleDown extends CommandBase {
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (leftTriggered)
-			shooter.angleDown(OI.left.getY());
-		else
-			shooter.angleDown(OI.right.getY());
+		shooter.angleDown(OI.shooter.getY());
 		shooter.updateDashboard();
 	}
 	
