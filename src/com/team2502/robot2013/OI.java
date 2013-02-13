@@ -1,44 +1,83 @@
-
 package com.team2502.robot2013;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.team2502.robot2013.commands.drive_train.SwitchDriveToArcadeDrive;
+import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniBackward;
+import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniForward;
+import com.team2502.robot2013.commands.drive_train.SwitchDriveToTankDrive;
+import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
+import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
+import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
+import com.team2502.robot2013.commands.storage.StartCompressor;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
-    //// CREATING BUTTONS
-    // One type of button is a joystick button which is any button on a joystick.
-    // You create one by telling it which joystick it's on and which button
-    // number it is.
-    // Joystick stick = new Joystick(port);
-    // Button button = new JoystickButton(stick, buttonNumber);
-    
-    // Another type of button you can create is a DigitalIOButton, which is
-    // a button or switch hooked up to the cypress module. These are useful if
-    // you want to build a customized operator interface.
-    // Button button = new DigitalIOButton(1);
-    
-    // There are a few additional built in buttons you can use. Additionally,
-    // by subclassing Button you can create custom triggers and bind those to
-    // commands the same as any other Button.
-    
-    //// TRIGGERING COMMANDS WITH BUTTONS
-    // Once you have a button, it's trivial to bind it to a button in one of
-    // three ways:
-    
-    // Start the command when the button is pressed and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenPressed(new ExampleCommand());
-    
-    // Run the command while the button is being held down and interrupt it once
-    // the button is released.
-    // button.whileHeld(new ExampleCommand());
-    
-    // Start the command when the button is released  and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenReleased(new ExampleCommand());
+	private static final int JOYSTICK_SPEED_UP     = 1;
+	private static final int JOYSTICK_CHANGE_ANGLE = 2;
+	private static final int JOYSTICK_SHOOT        = 3;
+	private static JoystickButton [] shootButton;
+	private static JoystickButton [] changeAngle;
+	private static JoystickButton [] shootFrisbee;
+	private static JoystickButton [] startCompressor;
+	private static SendableChooser   omniForward;
+	private static SendableChooser   tankDriveChoice;
+	
+    // Process operator interface input here.
+	public static  Joystick left;
+	public static  Joystick right;
+	
+	public static void init() {
+		left  = new Joystick(1);
+		right = new Joystick(2);
+		
+		initDashboard();
+		
+		shootButton    = new JoystickButton[2];
+        shootButton[0] = new JoystickButton(left, 1);
+		shootButton[0].whileHeld(new SpeedUpShooter());
+		shootButton[1] = new JoystickButton(right, 1);
+		shootButton[1].whileHeld(new SpeedUpShooter());
+        
+		changeAngle     = new JoystickButton[2];
+		changeAngle[0]  = new JoystickButton(left, 2);
+		changeAngle[0].whileHeld(new MoveShooterAngleUp(true));
+		changeAngle[1]  = new JoystickButton(right, 2);
+		changeAngle[1].whileHeld(new MoveShooterAngleUp(false));
+		
+		shootFrisbee    = new JoystickButton[2];
+		shootFrisbee[0] = new JoystickButton(left, 3);
+		shootFrisbee[0].whenPressed(new PushFrisbeeOut());
+		shootFrisbee[1] = new JoystickButton(right, 3);
+		shootFrisbee[1].whenPressed(new PushFrisbeeOut());
+		
+		startCompressor = new JoystickButton[2];
+		startCompressor[0] = new JoystickButton(left, 4);
+		startCompressor[0].whileHeld(new StartCompressor());
+		startCompressor[1] = new JoystickButton(right, 4);
+		startCompressor[1].whileHeld(new StartCompressor());
+	}
+	
+	private static void initDashboard() {
+		tankDriveChoice = new SendableChooser();
+		tankDriveChoice.addDefault("Tank Drive", new SwitchDriveToTankDrive());
+		tankDriveChoice.addObject("Arcade Drive", new SwitchDriveToArcadeDrive());
+		
+		omniForward = new SendableChooser();
+		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
+		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
+        
+		SmartDashboard.putData("Drive Type", tankDriveChoice);
+		SmartDashboard.putData("Omni Direction", omniForward);
+	}
+	
+	public static boolean isOmniForward() {
+		return omniForward.getSelected().toString().compareTo("SwitchDriveToOmniForward") == 0;
+	}
+	
+	public static boolean isTankDrive() {
+		return tankDriveChoice.getSelected().toString().compareTo("SwitchDriveToTankDrive") == 0;
+	}
 }
 
