@@ -15,7 +15,6 @@ public class MoveShooterAngleUp extends CommandBase {
 	
 	public MoveShooterAngleUp() {
 		requires(shooter);
-		requires(driveTrain);
 	}
 
 	// Called just before this Command runs the first time
