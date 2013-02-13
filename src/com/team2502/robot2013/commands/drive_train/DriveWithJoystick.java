@@ -25,11 +25,7 @@ public class  DriveWithJoystick extends CommandBase {
 	}
 	
 	protected void execute() {
-		if (OI.isTankDrive()) {
-			driveTrain.driveTank(OI.left, OI.right);
-		} else {
-			driveTrain.driveArcade(OI.left);
-		}
+		driveTrain.driveTank(OI.left, OI.right);
 		driveTrain.updateDashboard();
 	}
 	

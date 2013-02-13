@@ -22,7 +22,6 @@ public class OI {
 	private static JoystickButton [] shootFrisbee;
 	private static JoystickButton [] startCompressor;
 	private static SendableChooser   omniForward;
-	private static SendableChooser   tankDriveChoice;
 	
     // Process operator interface input here.
 	public static  Joystick left;
@@ -60,24 +59,15 @@ public class OI {
 	}
 	
 	private static void initDashboard() {
-		tankDriveChoice = new SendableChooser();
-		tankDriveChoice.addDefault("Tank Drive", new SwitchDriveToTankDrive());
-		tankDriveChoice.addObject("Arcade Drive", new SwitchDriveToArcadeDrive());
-		
 		omniForward = new SendableChooser();
 		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
 		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
         
-		SmartDashboard.putData("Drive Type", tankDriveChoice);
 		SmartDashboard.putData("Omni Direction", omniForward);
 	}
 	
 	public static boolean isOmniForward() {
 		return omniForward.getSelected().toString().compareTo("SwitchDriveToOmniForward") == 0;
-	}
-	
-	public static boolean isTankDrive() {
-		return tankDriveChoice.getSelected().toString().compareTo("SwitchDriveToTankDrive") == 0;
 	}
 }
 
