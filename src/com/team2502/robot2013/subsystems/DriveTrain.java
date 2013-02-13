@@ -33,27 +33,6 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	/**
-	 * Arcade drive with a joystick
-	 * @param joy Joystick to drive with
-	 */
-	public void driveArcade(Joystick joy) {
-		leftPower =        -joy.getZ() - joy.getY();
-		rightPower = -(0 - joy.getY() + joy.getZ());
-		
-		if (OI.isOmniForward()) {
-			leftPower  = -leftPower;
-			rightPower = -rightPower;
-		}
-		
-		frontLeft.set(leftPower);
-		backLeft.set(leftPower);
-		frontRight.set(rightPower);
-		backRight.set(rightPower);
-		
-		robotDrive.tankDrive(0, 0);
-	}
-	
-	/**
 	 * Tank drive using the left and right joysticks
 	 * @param left Left Joystick
 	 * @param right Right Joystick
@@ -61,6 +40,16 @@ public class DriveTrain extends Subsystem {
 	public void driveTank(Joystick left, Joystick right) {
 		leftPower  = left.getY();
 		rightPower = right.getY();
+		if (OI.isOmniForward()) {
+			leftPower  = -leftPower;
+			rightPower = -rightPower;
+		}
+		robotDrive.tankDrive(leftPower, rightPower, true);
+	}
+	
+	public void driveTankHalfSpeed(Joystick left, Joystick right) {
+		leftPower  = left.getY() / 2;
+		rightPower = right.getY() / 2;
 		if (OI.isOmniForward()) {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;

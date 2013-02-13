@@ -1,5 +1,6 @@
 package com.team2502.robot2013;
 
+import com.team2502.robot2013.commands.drive_train.HalfDriveWithJoystick;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -17,6 +18,7 @@ public class OI {
 	private static final int JOYSTICK_SPEED_UP     = 1;
 	private static final int JOYSTICK_CHANGE_ANGLE = 2;
 	private static final int JOYSTICK_SHOOT        = 3;
+	private static JoystickButton [] halfSpeed;
 	private static JoystickButton    shootButton;
 	private static JoystickButton    changeAngle;
 	private static JoystickButton    shootFrisbee;
@@ -34,6 +36,12 @@ public class OI {
 		shooter = new Joystick(3);
 		
 		initDashboard();
+		
+		halfSpeed = new JoystickButton[2];
+		halfSpeed[0] = new JoystickButton(left, 1);
+		halfSpeed[0].whileHeld(new HalfDriveWithJoystick());
+		halfSpeed[1] = new JoystickButton(right, 1);
+		halfSpeed[1].whileHeld(new HalfDriveWithJoystick());
 		
         shootButton = new JoystickButton(shooter, 1);
 		shootButton.whileHeld(new SpeedUpShooter());
