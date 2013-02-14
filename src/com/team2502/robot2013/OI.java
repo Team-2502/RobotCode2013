@@ -22,12 +22,20 @@ public class OI {
 	private static JoystickButton [] shootFrisbee;
 	private static JoystickButton [] startCompressor;
 	private static SendableChooser   omniForward;
+        
+        private static SendableChooser driverDevice;
 	
     // Process operator interface input here.
 	public static  Joystick left;
 	public static  Joystick right;
-	
+        
+        public static Joystick xboxJoyPort;
+        public static XboxController xboxController;
+
 	public static void init() {
+               xboxJoyPort = new Joystick(4);
+                xboxController = new XboxController(xboxJoyPort);
+            
 		left  = new Joystick(1);
 		right = new Joystick(2);
 		
@@ -62,10 +70,21 @@ public class OI {
 		omniForward = new SendableChooser();
 		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
 		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
-        
+                
 		SmartDashboard.putData("Omni Direction", omniForward);
+        
+                
+                
+                driverDevice = new SendableChooser();
+                driverDevice.addDefault("Joystics", new SwitchDriveToOmniForward());
+		driverDevice.addObject("Xbox Controller", new SwitchDriveToOmniBackward());
+                
 	}
 	
+        public static boolean useXboxController() {
+		return driverDevice.getSelected().toString().compareTo("SwitchDrivingDeviceToXboxController") == 0;
+	}
+        
 	public static boolean isOmniForward() {
 		return omniForward.getSelected().toString().compareTo("SwitchDriveToOmniForward") == 0;
 	}
