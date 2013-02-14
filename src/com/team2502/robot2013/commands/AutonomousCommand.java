@@ -8,21 +8,30 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in th future.
 package com.team2502.robot2013.commands;
+
+import edu.wpi.first.wpilibj.Timer;
+
 /**
- *
+ * The autonomous command for the 2013 competition
  */
 public class  AutonomousCommand extends CommandBase {
     public AutonomousCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(shooter);
+		requires(storage);
     }
     
     // Called just before this Command runs the first time
     protected void initialize() {
+		
     }
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+		shooter.startShooter();
+		Timer.delay(5);
+		shootFrisbee();
+		Timer.delay(1);
+		shootFrisbee();
     }
     
     // Make this return true when this Command no longer needs to run execute()
@@ -32,6 +41,8 @@ public class  AutonomousCommand extends CommandBase {
     
     // Called once after isFinished returns true
     protected void end() {
+		storage.retractFrisbee();
+		shooter.stopShooter();
     }
     
     // Called when another command which requires one or more of the same
@@ -39,4 +50,10 @@ public class  AutonomousCommand extends CommandBase {
     protected void interrupted() {
     	end();
     }
+	
+	private void shootFrisbee() {
+		storage.pushFrisbee();
+		Timer.delay(0.3);
+		storage.retractFrisbee();
+	}
 }
