@@ -35,7 +35,7 @@ public class Shooter extends Subsystem {
 	 */
 	public void startShooter() {
 		frontWheel.set(1.0);
-		backWheel.set(0.75);
+		backWheel.set(1.0);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class Shooter extends Subsystem {
 	 * Returns true if the shooter is running at 30% speed or higher
 	 */
 	public boolean isShooterRunning() {
-		return (frontWheel.get() > 0.3 && backWheel.get() > 0.3);
+		return (frontWheel.get() >= 0.3);
 	}
 	
 	/**

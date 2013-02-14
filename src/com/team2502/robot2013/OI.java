@@ -1,5 +1,7 @@
 package com.team2502.robot2013;
 
+import com.team2502.robot2013.commands.SetCompetitionVersion;
+import com.team2502.robot2013.commands.SetNormalVersion;
 import com.team2502.robot2013.commands.drive_train.HalfDriveWithJoystick;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -24,6 +26,7 @@ public class OI {
 	private static JoystickButton    shootFrisbee;
 	private static JoystickButton [] startCompressor;
 	private static SendableChooser   omniForward;
+	private static SendableChooser   competitionVersion;
 	
     // Process operator interface input here.
 	public static  Joystick left;
@@ -65,12 +68,21 @@ public class OI {
 		omniForward = new SendableChooser();
 		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
 		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
+		
+		competitionVersion = new SendableChooser();
+		competitionVersion.addDefault("Competition Version", new SetCompetitionVersion());
+		competitionVersion.addObject("Normal Version", new SetNormalVersion());
         
+		SmartDashboard.putData("Competition/Normal Version", competitionVersion);
 		SmartDashboard.putData("Omni Direction", omniForward);
 	}
 	
 	public static boolean isOmniForward() {
 		return omniForward.getSelected().toString().compareTo("SwitchDriveToOmniForward") == 0;
+	}
+	
+	public static boolean isCompetitionVersion() {
+		return competitionVersion.getSelected().toString().compareTo("SetCompetitionVersion") == 0;
 	}
 }
 

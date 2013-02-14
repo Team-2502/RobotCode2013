@@ -15,6 +15,7 @@ import com.team2502.robot2013.OI;
  */
 public class DriveTrain extends Subsystem {
 	
+	private long timeStarted  = 0;
 	private double leftPower  = 0;
 	private double rightPower = 0;
 	
@@ -25,7 +26,8 @@ public class DriveTrain extends Subsystem {
 	private RobotDrive robotDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 	
 	public DriveTrain() {
-		
+		robotDrive.setSafetyEnabled(false);
+		timeStarted = System.currentTimeMillis();
 	}
 	
 	public void initDefaultCommand() {
@@ -44,12 +46,31 @@ public class DriveTrain extends Subsystem {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;
 		}
-		robotDrive.tankDrive(leftPower, rightPower, true);
+		if (OI.isCompetitionVersion()) {
+			robotDrive.tankDrive(leftPower, rightPower, true);
+		} else {
+			long diff = System.currentTimeMillis() - timeStarted;
+			SmartDashboard.putNumber("Debug", diff);
+			if (diff < 15000) {
+				frontLeft.set(leftPower);
+				frontRight.set(rightPower);
+				backLeft.set(0);
+				backRight.set(0);
+			} else {
+				frontLeft.set(0);
+				frontRight.set(0);
+				backLeft.set(leftPower);
+				backRight.set(rightPower);
+				if (diff >= 30000) {
+					timeStarted = System.currentTimeMillis();
+				}
+			}
+		}
 	}
 	
-	public void driveTankHalfSpeed(Joystick left, Joystick right) {
-		leftPower  = left.getY() / 2;
-		rightPower = right.getY() / 2;
+	public void driveTankSlow(Joystick left, Joystick right) {
+		leftPower  = left.getY() * .75;
+		rightPower = right.getY() * .75;
 		if (OI.isOmniForward()) {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;

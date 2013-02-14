@@ -25,7 +25,7 @@ public class  HalfDriveWithJoystick extends CommandBase {
 	}
 	
 	protected void execute() {
-		driveTrain.driveTankHalfSpeed(OI.left, OI.right);
+		driveTrain.driveTankSlow(OI.left, OI.right);
 		driveTrain.updateDashboard();
 	}
 	
