@@ -27,11 +27,13 @@ public class  AutonomousCommand extends CommandBase {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-		shooter.startShooter();
-		Timer.delay(5);
-		shootFrisbee();
-		Timer.delay(1);
-		shootFrisbee();
+		shooter.startShooter(); // 0
+		Timer.delay(3); // 3
+		shootFrisbee(); // 3.3
+		Timer.delay(1); // 4.3
+		shootFrisbee(); // 4.6
+		shooter.stopShooter(); // 4.6
+		Timer.delay(10.4); // 15
     }
     
     // Make this return true when this Command no longer needs to run execute()
