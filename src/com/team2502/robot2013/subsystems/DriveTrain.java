@@ -38,8 +38,8 @@ public class DriveTrain extends Subsystem {
 	 * @param right Right Joystick
 	 */
 	public void driveTank(Joystick left, Joystick right) {
-		leftPower  = left.getY();
-		rightPower = right.getY();
+		leftPower  = left.getY() * -(left.getZ() - 1) / 2;
+		rightPower = right.getY() * -(right.getZ() - 1) / 2;
 		if (OI.isOmniForward()) {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;
