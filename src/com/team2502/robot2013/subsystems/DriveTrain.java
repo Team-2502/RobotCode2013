@@ -52,14 +52,14 @@ public class DriveTrain extends Subsystem {
 			long diff = System.currentTimeMillis() - timeStarted;
 			SmartDashboard.putNumber("Debug", diff);
 			if (diff < 15000) {
-				frontLeft.set(leftPower);
+				frontLeft.set(-leftPower);
 				frontRight.set(rightPower);
 				backLeft.set(0);
 				backRight.set(0);
 			} else {
 				frontLeft.set(0);
 				frontRight.set(0);
-				backLeft.set(leftPower);
+				backLeft.set(-leftPower);
 				backRight.set(rightPower);
 				if (diff >= 30000) {
 					timeStarted = System.currentTimeMillis();
