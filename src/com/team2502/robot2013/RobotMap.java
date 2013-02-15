@@ -30,6 +30,12 @@ public class RobotMap {
 	public static final int SHOOTER_ANGLE_MOTOR      = 5; // PWM
 	public static final int SHOOTER_FRONT_WHEEL      = 6; // PWM
 	public static final int SHOOTER_BACK_WHEEL       = 7; // PWM
-	public static final int SHOOTER_COMPRESSOR_RELAY = 1; // Relay
-	public static final int SHOOTER_PUSHER           = 2; // Relay
+	
+	/* Storage Constants */
+	public static final int STORAGE_COMPRESSOR_RELAY = 1; // Relay
+	public static final int STORAGE_PUSHER           = 2; // Relay
+	
+	/* Lifter Constants */
+	public static final int LIFTER_SOLENOID_UP       = 1; // Relay
+	public static final int LIFTER_SOLENOID_DOWN     = 2; // Relay
 }

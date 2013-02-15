@@ -25,14 +25,15 @@ public class PushFrisbeeOut extends CommandBase {
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (shooter.isShooterRunning())
+		//if (shooter.isShooterRunning())
 			storage.pushFrisbee();
+		storage.update();
 		storage.updateDashboard();
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut();
+		return false;
 	}
 	
 	// Called once after isFinished returns true

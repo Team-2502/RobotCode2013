@@ -16,16 +16,23 @@ public class Storage extends Subsystem {
 	
 	private Compressor    compressor    = new Compressor(
 											RobotMap.SHOOTER_PRESSURE_SWITCH,
-											RobotMap.SHOOTER_COMPRESSOR_RELAY);
-	private Solenoid      frisbeePusher = new Solenoid(RobotMap.SHOOTER_PUSHER);
+											RobotMap.STORAGE_COMPRESSOR_RELAY);
+	private Solenoid      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
 	
 	public Storage() {
-		if (!compressor.enabled())
-			compressor.start();
+		
 	}
 	
 	public void initDefaultCommand() {
 		setDefaultCommand(new StorageUpdate());
+	}
+	
+	public void update() {
+		if (!compressor.getPressureSwitchValue()) {
+			turnCompressorOn();
+		} else {
+			//turnCompressorOff();
+		}
 	}
 	
 	public void updateDashboard() {

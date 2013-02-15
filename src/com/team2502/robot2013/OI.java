@@ -53,7 +53,7 @@ public class OI {
 		changeAngle.whileHeld(new MoveShooterAngleUp());
 		
 		shootFrisbee = new JoystickButton(shooter, 3);
-		shootFrisbee.whenPressed(new PushFrisbeeOut());
+		shootFrisbee.whileHeld(new PushFrisbeeOut());
 		
 		startCompressor = new JoystickButton[3];
 		startCompressor[0] = new JoystickButton(left, 4);

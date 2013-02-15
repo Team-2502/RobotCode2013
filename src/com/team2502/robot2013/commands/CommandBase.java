@@ -18,6 +18,7 @@ public abstract class CommandBase extends Command {
 	protected static DriveTrain driveTrain = new DriveTrain();
 	protected static Shooter    shooter    = new Shooter();
 	protected static Storage    storage    = new Storage();
+	protected static Lifter     lifter     = null;//new Lifter();
 	
 	public static void init() {
 		// This MUST be here. If the OI creates Commands (which it very likely
