@@ -20,7 +20,8 @@ public class Storage extends Subsystem {
 	private Solenoid      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
 	
 	public Storage() {
-		
+		if (!compressor.enabled())
+			compressor.start();
 	}
 	
 	public void initDefaultCommand() {
@@ -28,11 +29,7 @@ public class Storage extends Subsystem {
 	}
 	
 	public void update() {
-		if (!compressor.getPressureSwitchValue()) {
-			turnCompressorOn();
-		} else {
-			//turnCompressorOff();
-		}
+		
 	}
 	
 	public void updateDashboard() {

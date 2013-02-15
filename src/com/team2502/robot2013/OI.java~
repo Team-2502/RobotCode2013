@@ -56,7 +56,7 @@ public class OI {
 		changeAngle.whileHeld(new MoveShooterAngleUp());
 		
 		shootFrisbee = new JoystickButton(shooter, 3);
-		shootFrisbee.whenPressed(new PushFrisbeeOut());
+		shootFrisbee.whileHeld(new PushFrisbeeOut());
 		
 		startCompressor = new JoystickButton[3];
 		startCompressor[0] = new JoystickButton(left, 4);
@@ -71,17 +71,24 @@ public class OI {
 		omniForward = new SendableChooser();
 		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
 		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
+<<<<<<< HEAD
 		
 		competitionVersion = new SendableChooser();
 		competitionVersion.addDefault("Competition Version", new SetCompetitionVersion());
 		competitionVersion.addObject("Normal Version", new SetNormalVersion());
         
+		SmartDashboard.putData("Competition/Normal Version", competitionVersion);
+=======
+                
+>>>>>>> master
+		SmartDashboard.putData("Omni Direction", omniForward);
+        
+                
+                
                 driverDevice = new SendableChooser();
                 driverDevice.addDefault("Joystics", new SwitchDriveToOmniForward());
 		driverDevice.addObject("Xbox Controller", new SwitchDriveToOmniBackward());
-
-		SmartDashboard.putData("Competition/Normal Version", competitionVersion);
-		SmartDashboard.putData("Omni Direction", omniForward);
+                
 	}
 	
         public static boolean useXboxController() {

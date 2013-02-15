@@ -25,7 +25,7 @@ public class PushFrisbeeOut extends CommandBase {
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		//if (shooter.isShooterRunning())
+		if (shooter.isShooterRunning())
 			storage.pushFrisbee();
 		storage.update();
 		storage.updateDashboard();
