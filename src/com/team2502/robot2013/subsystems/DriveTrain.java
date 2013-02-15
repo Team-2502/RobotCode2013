@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.OI;
+import com.team2502.robot2013.XboxController;
 
 /**
  * The drive train that will be moving the robot around.
@@ -64,6 +65,20 @@ public class DriveTrain extends Subsystem {
 		if (OI.isOmniForward()) {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;
+		}
+		robotDrive.tankDrive(leftPower, rightPower, true);
+	}
+        
+        /**
+	 * Tank drive using the left and right joysticks
+	 * @param xboxController xbox controller
+	 */
+	public void driveTankWithXbox(XboxController xboxController) {
+		leftPower  = xboxController.getLeftYAxis();
+		rightPower = xboxController.getRightYAxis();
+		if (OI.isOmniForward()) {
+			leftPower  = leftPower;
+			rightPower = rightPower;
 		}
 		robotDrive.tankDrive(leftPower, rightPower, true);
 	}
