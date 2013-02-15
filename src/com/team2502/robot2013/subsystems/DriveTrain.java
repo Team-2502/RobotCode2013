@@ -74,13 +74,17 @@ public class DriveTrain extends Subsystem {
 	 * @param xboxController xbox controller
 	 */
 	public void driveTankWithXbox(XboxController xboxController) {
-		leftPower  = xboxController.getLeftYAxis();
-		rightPower = xboxController.getRightYAxis();
+		leftPower  = -xboxController.getLeftYAxis();
+		rightPower = -xboxController.getRightYAxis();
 		if (OI.isOmniForward()) {
-			leftPower  = leftPower;
-			rightPower = rightPower;
+			leftPower  = -leftPower;
+			rightPower = -rightPower;
 		}
-		robotDrive.tankDrive(leftPower, rightPower, true);
+		robotDrive.tankDrive(rightPower, leftPower, true);
+                
+                
+                SmartDashboard.putString("Leftaxis", "" + xboxController.getLeftYAxis());
+                SmartDashboard.putString("Rightaxis", "" + xboxController.getRightYAxis());
 	}
 	
 	/**

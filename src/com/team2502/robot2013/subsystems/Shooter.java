@@ -89,5 +89,6 @@ public class Shooter extends Subsystem {
 	public void updateDashboard() {
 		SmartDashboard.putNumber("Front Shooter Wheel", frontWheel.get());
 		SmartDashboard.putNumber("Back Shooter Wheel", backWheel.get());
+                
 	}
 }

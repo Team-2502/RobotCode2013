@@ -8,6 +8,7 @@ import com.team2502.robot2013.commands.drive_train.SwitchDriveToArcadeDrive;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniBackward;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniForward;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToTankDrive;
+import com.team2502.robot2013.commands.drive_train.SwitchDrivingDeviceToXboxController;
 import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
 import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
@@ -33,52 +34,57 @@ public class OI {
         public static XboxController xboxController;
 
 	public static void init() {
-               xboxJoyPort = new Joystick(4);
-                xboxController = new XboxController(xboxJoyPort);
+            xboxJoyPort = new Joystick(4);
+            xboxController = new XboxController(xboxJoyPort);
+            xboxController.init();
+
+            left = new Joystick(1);
+            right = new Joystick(2);
+
+            initDashboard();
+
+            shootButton = new JoystickButton[2];
+            shootButton[0] = new JoystickButton(left, 1);
+            shootButton[0].whileHeld(new SpeedUpShooter());
+            shootButton[1] = new JoystickButton(right, 1);
+            shootButton[1].whileHeld(new SpeedUpShooter());
+
+            changeAngle = new JoystickButton[2];
+            changeAngle[0] = new JoystickButton(left, 2);
+            changeAngle[0].whileHeld(new MoveShooterAngleUp(true));
+            changeAngle[1] = new JoystickButton(right, 2);
+            changeAngle[1].whileHeld(new MoveShooterAngleUp(false));
+
+            shootFrisbee = new JoystickButton[2];
+            shootFrisbee[0] = new JoystickButton(left, 3);
+            shootFrisbee[0].whenPressed(new PushFrisbeeOut());
+            shootFrisbee[1] = new JoystickButton(right, 3);
+            shootFrisbee[1].whenPressed(new PushFrisbeeOut());
+
+            startCompressor = new JoystickButton[2];
+            startCompressor[0] = new JoystickButton(left, 4);
+            startCompressor[0].whileHeld(new StartCompressor());
+            startCompressor[1] = new JoystickButton(right, 4);
+            startCompressor[1].whileHeld(new StartCompressor());
+        }
+
+        private static void initDashboard() {
+            omniForward = new SendableChooser();
+            omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
+            omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
+
+            SmartDashboard.putData("Omni Direction", omniForward);
+
+
+
+            driverDevice = new SendableChooser();
+            driverDevice.addDefault("Joystics", new SwitchDriveToArcadeDrive());
+            driverDevice.addObject("Xbox Controller", new SwitchDrivingDeviceToXboxController());
             
-		left  = new Joystick(1);
-		right = new Joystick(2);
-		
-		initDashboard();
-		
-		shootButton    = new JoystickButton[2];
-        shootButton[0] = new JoystickButton(left, 1);
-		shootButton[0].whileHeld(new SpeedUpShooter());
-		shootButton[1] = new JoystickButton(right, 1);
-		shootButton[1].whileHeld(new SpeedUpShooter());
-        
-		changeAngle     = new JoystickButton[2];
-		changeAngle[0]  = new JoystickButton(left, 2);
-		changeAngle[0].whileHeld(new MoveShooterAngleUp(true));
-		changeAngle[1]  = new JoystickButton(right, 2);
-		changeAngle[1].whileHeld(new MoveShooterAngleUp(false));
-		
-		shootFrisbee    = new JoystickButton[2];
-		shootFrisbee[0] = new JoystickButton(left, 3);
-		shootFrisbee[0].whenPressed(new PushFrisbeeOut());
-		shootFrisbee[1] = new JoystickButton(right, 3);
-		shootFrisbee[1].whenPressed(new PushFrisbeeOut());
-		
-		startCompressor = new JoystickButton[2];
-		startCompressor[0] = new JoystickButton(left, 4);
-		startCompressor[0].whileHeld(new StartCompressor());
-		startCompressor[1] = new JoystickButton(right, 4);
-		startCompressor[1].whileHeld(new StartCompressor());
-	}
-	
-	private static void initDashboard() {
-		omniForward = new SendableChooser();
-		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
-		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());
-                
-		SmartDashboard.putData("Omni Direction", omniForward);
-        
-                
-                
-                driverDevice = new SendableChooser();
-                driverDevice.addDefault("Joystics", new SwitchDriveToOmniForward());
-		driverDevice.addObject("Xbox Controller", new SwitchDriveToOmniBackward());
-                
+            SmartDashboard.putData("Driver Device ", driverDevice);
+            
+            
+
 	}
 	
         public static boolean useXboxController() {

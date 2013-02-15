@@ -7,7 +7,14 @@
 
 package com.team2502.robot2013;
 
+import com.team2502.robot2013.commands.shooter.MoveShooter;
+import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
+import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
+import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
+import com.team2502.robot2013.commands.storage.StartCompressor;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.AnalogIOButton;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 //TODO Code support for Start/Back/XBox(?) buttons.
 /**
@@ -41,10 +48,41 @@ public class XboxController {
     
     private static final double DEADZONE = 0.1;
     
-    private Joystick stick;
+    
+    private static JoystickButton[] shootButton; // Buttons
+    private static AnalogIOButton[] changeAngle; // Triggers
+    private static JoystickButton[] shootFrisbee; // Buttons
+    private static JoystickButton[] startCompressor; // Buttons
+    
+    
+    
+    private static Joystick stick;
     
     public XboxController(Joystick joystick){
         stick = joystick;
+        
+    }
+    
+    public static void init() {
+        // Spin Up
+        shootButton = new JoystickButton[1];
+        shootButton[0] = new JoystickButton(stick, LEFT_BUMPER_BUTTON); // Left bumper
+        shootButton[0].whileHeld(new SpeedUpShooter());
+
+        
+        changeAngle = new AnalogIOButton[1];
+        changeAngle[0] = new AnalogIOButton(TRIGGER_AXIS); // Right and Left Triggers
+        changeAngle[0].whileActive(new MoveShooter());
+
+        // Shoot
+        shootFrisbee = new JoystickButton[1];
+        shootFrisbee[0] = new JoystickButton(stick, RIGHT_BUMPER_BUTTON); // Right bumper
+        shootFrisbee[0].whenPressed(new PushFrisbeeOut());
+
+        startCompressor = new JoystickButton[2];
+        startCompressor[0] = new JoystickButton(stick, A_BUTTON); // A button
+        startCompressor[0].whileHeld(new StartCompressor());
+        
     }
     
     private boolean inDeadZone(double input){
@@ -112,7 +150,7 @@ public class XboxController {
         return getAxisWithDeadZoneCheck(-stick.getRawAxis(RIGHT_Y_AXIS)); 
     }
     
-    private double getTriggerAxis(){
+    public double getTriggerAxis(){
         return getAxisWithDeadZoneCheck(stick.getRawAxis(TRIGGER_AXIS)); 
     }
     
