@@ -26,7 +26,7 @@ public class MoveShooter extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-                
+              
         SmartDashboard.putString("shooterGoing", "" + OI.xboxController.getTriggerAxis());
         
         if (OI.xboxController.getTriggerAxis() < -.05)
@@ -37,6 +37,8 @@ public class MoveShooter extends CommandBase {
         {
             shooter.angleDown(Math.abs(OI.xboxController.getTriggerAxis()));
         }
+        else
+            shooter.angleUp(0);
         
         shooter.updateDashboard();
     }

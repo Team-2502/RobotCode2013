@@ -15,6 +15,7 @@ import com.team2502.robot2013.commands.storage.StartCompressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.AnalogIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //TODO Code support for Start/Back/XBox(?) buttons.
 /**
@@ -50,7 +51,6 @@ public class XboxController {
     
     
     private static JoystickButton[] shootButton; // Buttons
-    private static AnalogIOButton[] changeAngle; // Triggers
     private static JoystickButton[] shootFrisbee; // Buttons
     private static JoystickButton[] startCompressor; // Buttons
     
@@ -70,10 +70,6 @@ public class XboxController {
         shootButton[0].whileHeld(new SpeedUpShooter());
 
         
-        changeAngle = new AnalogIOButton[1];
-        changeAngle[0] = new AnalogIOButton(TRIGGER_AXIS); // Right and Left Triggers
-        changeAngle[0].whileActive(new MoveShooter());
-
         // Shoot
         shootFrisbee = new JoystickButton[1];
         shootFrisbee[0] = new JoystickButton(stick, RIGHT_BUMPER_BUTTON); // Right bumper
