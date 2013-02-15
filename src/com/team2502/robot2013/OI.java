@@ -27,16 +27,19 @@ public class OI {
 	private static JoystickButton [] startCompressor;
 	private static SendableChooser   omniForward;
 	private static SendableChooser   competitionVersion;
+        private static SendableChooser driverDevice;
 	
     // Process operator interface input here.
-	public static  Joystick left;
-	public static  Joystick right;
-	public static  Joystick shooter;
-	
+	public static Joystick left;
+	public static Joystick right;
+	public static Joystick shooter;
+        public static XboxController xboxController;
+
 	public static void init() {
-		left    = new Joystick(1);
-		right   = new Joystick(2);
-		shooter = new Joystick(3);
+		shooter = new Joystick(1);
+		left  = new Joystick(2);
+		right = new Joystick(3);
+                xboxController = new XboxController(left);
 		
 		initDashboard();
 		
@@ -73,10 +76,18 @@ public class OI {
 		competitionVersion.addDefault("Competition Version", new SetCompetitionVersion());
 		competitionVersion.addObject("Normal Version", new SetNormalVersion());
         
+                driverDevice = new SendableChooser();
+                driverDevice.addDefault("Joystics", new SwitchDriveToOmniForward());
+		driverDevice.addObject("Xbox Controller", new SwitchDriveToOmniBackward());
+
 		SmartDashboard.putData("Competition/Normal Version", competitionVersion);
 		SmartDashboard.putData("Omni Direction", omniForward);
 	}
 	
+        public static boolean useXboxController() {
+		return driverDevice.getSelected().toString().compareTo("SwitchDrivingDeviceToXboxController") == 0;
+	}
+        
 	public static boolean isOmniForward() {
 		return omniForward.getSelected().toString().compareTo("SwitchDriveToOmniForward") == 0;
 	}

@@ -25,7 +25,16 @@ public class  DriveWithJoystick extends CommandBase {
 	}
 	
 	protected void execute() {
-		driveTrain.driveTank(OI.left, OI.right);
+                if(oi.useXboxController())
+                {
+                    driveTrain.driveTankWithXbox(OI.xboxController);
+                }
+                else
+                {
+                    driveTrain.driveTank(OI.left, OI.right);
+                }
+                
+                
 		driveTrain.updateDashboard();
 	}
 	
