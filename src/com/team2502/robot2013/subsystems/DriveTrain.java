@@ -86,11 +86,54 @@ public class DriveTrain extends Subsystem {
 	public void driveTankSlow(Joystick left, Joystick right) {
 		leftPower  = left.getY() * .75;
 		rightPower = right.getY() * .75;
+		
 		if (OI.isOmniForward()) {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;
 		}
-		robotDrive.tankDrive(leftPower, rightPower, true);
+		
+		robotDrive.tankDrive(rightPower, leftPower, true);
+	}
+        
+        /**
+	 * Tank drive using the left and right joysticks
+	 * @param xboxController xbox controller
+	 */
+	public void driveTankWithXbox(XboxController xboxController) {
+		leftPower  = -xboxController.getLeftYAxis();
+		rightPower = -xboxController.getRightYAxis();
+		if (OI.isOmniForward()) {
+			leftPower  = -leftPower;
+			rightPower = -rightPower;
+		}
+                
+                // If analog stick pushed then half speed
+                if(xboxController.getLeftJoystickButton())
+                {
+                    leftPower = leftPower * .5;
+                }
+                
+                if(xboxController.getRightJoystickButton())
+                {
+                    rightPower = rightPower * .5;
+                }
+                
+                
+                // Make precision controlls for the dpad.
+                if(xboxController.getDPadLeft())
+                {
+                    leftPower = -.6;
+                    rightPower = .6;
+                }
+                else if(xboxController.getDPadRight())
+                {
+                    leftPower = .6;
+                    rightPower = -.6;
+                }
+                
+                
+		robotDrive.tankDrive(rightPower, leftPower, true);
+                
 	}
 	
 	/**
