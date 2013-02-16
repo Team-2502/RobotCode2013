@@ -26,16 +26,16 @@ public class RobotMap {
 	
 	/* Shooter Constants */
 	public static final int SHOOTER_ANGLE            = 1; // Analog
-	public static final int SHOOTER_PRESSURE_SWITCH  = 1; // Digital Input
 	public static final int SHOOTER_ANGLE_MOTOR      = 5; // PWM
 	public static final int SHOOTER_FRONT_WHEEL      = 6; // PWM
 	public static final int SHOOTER_BACK_WHEEL       = 7; // PWM
 	
 	/* Storage Constants */
+	public static final int STORAGE_PRESSURE_SWITCH  = 1; // Digital Input
 	public static final int STORAGE_COMPRESSOR_RELAY = 1; // Relay
 	public static final int STORAGE_PUSHER           = 2; // Relay
 	
 	/* Lifter Constants */
-	public static final int LIFTER_SOLENOID_UP       = 1; // Relay
-	public static final int LIFTER_SOLENOID_DOWN     = 2; // Relay
+	public static final int LIFTER_SOLENOID_UP       = 4; // Relay
+	public static final int LIFTER_SOLENOID_DOWN     = 5; // Relay
 }

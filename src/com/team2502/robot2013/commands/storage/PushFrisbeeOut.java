@@ -5,7 +5,6 @@
 package com.team2502.robot2013.commands.storage;
 
 import com.team2502.robot2013.commands.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PushFrisbeeOut extends CommandBase {
 	
 	public PushFrisbeeOut() {
-		setTimeout(0.3);
+		setTimeout(0.4);
 		requires(storage);
 	}
 	
@@ -44,6 +43,6 @@ public class PushFrisbeeOut extends CommandBase {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		end();
+		
 	}
 }

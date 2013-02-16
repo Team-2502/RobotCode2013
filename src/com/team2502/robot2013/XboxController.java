@@ -7,15 +7,11 @@
 
 package com.team2502.robot2013;
 
-import com.team2502.robot2013.commands.shooter.MoveShooter;
-import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
 import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.storage.StartCompressor;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.AnalogIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //TODO Code support for Start/Back/XBox(?) buttons.
 /**

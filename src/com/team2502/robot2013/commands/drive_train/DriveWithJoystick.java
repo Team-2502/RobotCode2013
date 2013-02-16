@@ -30,8 +30,7 @@ public class DriveWithJoystick extends CommandBase {
 		} else {
 			driveTrain.driveTank(OI.left, OI.right);
 		}
-
-
+		
 		driveTrain.updateDashboard();
 	}
 

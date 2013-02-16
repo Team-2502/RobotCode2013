@@ -2,42 +2,43 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.team2502.robot2013.commands.storage;
+package com.team2502.robot2013.commands.lifter;
 
 import com.team2502.robot2013.commands.CommandBase;
 
 /**
  *
- * @author josh
+ * @author Josh Larson
  */
-public class StorageUpdate extends CommandBase {
+public class ActivateLifter extends CommandBase {
 	
-	public StorageUpdate() {
-		requires(storage);
+	public ActivateLifter() {
+		requires(lifter);
 	}
-	
+
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		
 	}
-	
+
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		storage.update();
-		storage.retractFrisbee();
-		storage.retractFrisbee();
+		lifter.moveLifterUp();
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return false;
 	}
-	
+
 	// Called once after isFinished returns true
 	protected void end() {
+		lifter.moveLifterDown();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

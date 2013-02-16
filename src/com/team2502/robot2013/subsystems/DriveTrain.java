@@ -37,20 +37,6 @@ public class DriveTrain extends Subsystem {
 	
 	/**
 	 * Tank drive using the left and right joysticks
-	 * @param xboxController xbox controller
-	 */
-	public void driveTankWithXbox(XboxController xboxController) {
-		leftPower  = xboxController.getLeftYAxis();
-		rightPower = xboxController.getRightYAxis();
-		if (OI.isOmniForward()) {
-			leftPower  = -leftPower;
-			rightPower = -rightPower;
-		}
-		robotDrive.tankDrive(leftPower, rightPower, true);
-	}
-	
-	/**
-	 * Tank drive using the left and right joysticks
 	 * @param left Left Joystick
 	 * @param right Right Joystick
 	 */

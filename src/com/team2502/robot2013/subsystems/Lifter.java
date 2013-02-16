@@ -5,6 +5,7 @@
 package com.team2502.robot2013.subsystems;
 
 import com.team2502.robot2013.RobotMap;
+import com.team2502.robot2013.commands.lifter.LifterUpdate;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,17 +20,17 @@ public class Lifter extends Subsystem {
 	private Solenoid lifterDown = new Solenoid(RobotMap.LIFTER_SOLENOID_DOWN);
 	
 	public void initDefaultCommand() {
-		
+		setDefaultCommand(new LifterUpdate());
 	}
 	
 	public void moveLifterUp() {
-		lifterUp.set(true);
-		lifterDown.set(false);
+		lifterUp.set(false);
+		lifterDown.set(true);
 	}
 	
 	public void moveLifterDown() {
-		lifterUp.set(false);
-		lifterDown.set(true);
+		lifterUp.set(true);
+		lifterDown.set(false);
 	}
 	
 	public void updateDashboard() {

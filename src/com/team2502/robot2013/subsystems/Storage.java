@@ -15,7 +15,7 @@ import com.team2502.robot2013.commands.storage.StorageUpdate;
 public class Storage extends Subsystem {
 	
 	private Compressor    compressor    = new Compressor(
-											RobotMap.SHOOTER_PRESSURE_SWITCH,
+											RobotMap.STORAGE_PRESSURE_SWITCH,
 											RobotMap.STORAGE_COMPRESSOR_RELAY);
 	private Solenoid      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
 	
@@ -29,7 +29,10 @@ public class Storage extends Subsystem {
 	}
 	
 	public void update() {
-		
+		if (compressor.getPressureSwitchValue())
+			compressor.stop();
+		else
+			compressor.start();
 	}
 	
 	public void updateDashboard() {
