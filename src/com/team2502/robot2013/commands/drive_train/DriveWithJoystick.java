@@ -15,37 +15,33 @@ import com.team2502.robot2013.commands.CommandBase;
 /**
  *
  */
-public class  DriveWithJoystick extends CommandBase {
+public class DriveWithJoystick extends CommandBase {
+
 	public DriveWithJoystick() {
 		requires(driveTrain);
 	}
-	
+
 	protected void initialize() {
-		
 	}
-	
+
 	protected void execute() {
-                if(oi.useXboxController())
-                {
-                    driveTrain.driveTankWithXbox(OI.xboxController);
-                }
-                else
-                {
-                    driveTrain.driveTank(OI.left, OI.right);
-                }
-                
-                
+		if (OI.isXboxController()) {
+			driveTrain.driveTankWithXbox(OI.xboxController);
+		} else {
+			driveTrain.driveTank(OI.left, OI.right);
+		}
+
+
 		driveTrain.updateDashboard();
 	}
-	
+
 	protected boolean isFinished() {
 		return false;
 	}
-	
+
 	protected void end() {
-		
 	}
-	
+
 	protected void interrupted() {
 		end();
 	}

@@ -43,8 +43,8 @@ public class DriveTrain extends Subsystem {
 		leftPower  = xboxController.getLeftYAxis();
 		rightPower = xboxController.getRightYAxis();
 		if (OI.isOmniForward()) {
-			leftPower  = leftPower;
-			rightPower = rightPower;
+			leftPower  = -leftPower;
+			rightPower = -rightPower;
 		}
 		robotDrive.tankDrive(leftPower, rightPower, true);
 	}
