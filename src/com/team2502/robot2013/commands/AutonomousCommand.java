@@ -32,8 +32,10 @@ public class  AutonomousCommand extends CommandBase {
 		shootFrisbee(); // 3.3
 		Timer.delay(1); // 4.3
 		shootFrisbee(); // 4.6
-		shooter.stopShooter(); // 4.6
-		Timer.delay(10.4); // 15
+		Timer.delay(1); // 5.6
+		shootFrisbee(); // 5.9
+		shooter.stopShooter(); // 5.9
+		Timer.delay(9.1); // 15
     }
     
     // Make this return true when this Command no longer needs to run execute()
