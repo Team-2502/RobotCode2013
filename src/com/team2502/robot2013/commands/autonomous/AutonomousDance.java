@@ -23,10 +23,12 @@ public class AutonomousDance extends CommandBase {
 	protected void initialize() {
 		
 	}
-
+	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (System.currentTimeMillis() - started < 1500)
+		if (System.currentTimeMillis() - started < 2500)
+			driveTrain.driveForward(-0.8);
+		else if (System.currentTimeMillis() - started < 4000)
 			driveTrain.dance();
 		else
 			driveTrain.danceSlow();
