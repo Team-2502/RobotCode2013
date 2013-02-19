@@ -23,6 +23,7 @@ public class StorageUpdate extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		storage.update();
+		storage.updateDashboard();
 		storage.retractFrisbee();
 		storage.retractFrisbee();
 	}

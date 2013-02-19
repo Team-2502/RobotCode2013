@@ -19,7 +19,7 @@ public class MoveShooterAngleUp extends CommandBase {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		
+		shooter.startManualAiming();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -35,7 +35,7 @@ public class MoveShooterAngleUp extends CommandBase {
 	
 	// Called once after isFinished returns true
 	protected void end() {
-		shooter.angleUp(0);
+		shooter.stopManualAiming();
 	}
 
 	// Called when another command which requires one or more of the same

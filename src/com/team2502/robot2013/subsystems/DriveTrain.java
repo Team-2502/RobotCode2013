@@ -36,6 +36,20 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	/**
+	 * Does this require an explanation?
+	 */
+	public void dance() {
+		robotDrive.tankDrive(-0.75, 0.75);
+	}
+	
+	/**
+	 * You will try to explain...
+	 */
+	public void danceSlow() {
+		robotDrive.tankDrive(-0.6, 0.6);
+	}
+	
+	/**
 	 * Tank drive using the left and right joysticks
 	 * @param left Left Joystick
 	 * @param right Right Joystick

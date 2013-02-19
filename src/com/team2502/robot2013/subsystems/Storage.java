@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.RobotMap;
 import com.team2502.robot2013.commands.storage.StorageUpdate;
+import edu.wpi.first.wpilibj.AnalogChannel;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Storage extends Subsystem {
 											RobotMap.STORAGE_PRESSURE_SWITCH,
 											RobotMap.STORAGE_COMPRESSOR_RELAY);
 	private Solenoid      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
+	private AnalogChannel frisbeeDetector = new AnalogChannel(RobotMap.STORAGE_DETECTOR);
 	
 	public Storage() {
 		if (!compressor.enabled())
@@ -38,6 +40,7 @@ public class Storage extends Subsystem {
 	public void updateDashboard() {
 		SmartDashboard.putBoolean("Compressor Running", isCompressorRunning());
 		SmartDashboard.putBoolean("Frisbee Pushed", isPushingFrisbee());
+		SmartDashboard.putNumber("Frisbee Detector", frisbeeDetector.getVoltage());
 	}
 	
 	/**
@@ -104,5 +107,13 @@ public class Storage extends Subsystem {
 	 */
 	public void turnCompressorOff() {
 		compressor.setRelayValue(Value.kOff);
+	}
+	
+	/**
+	 * Has the frisbee if it is at 0.2
+	 * 
+	 */
+	public boolean hasFrisbee() {
+		return (frisbeeDetector.getVoltage() >= 0.8);
 	}
 }
