@@ -40,7 +40,7 @@ public class Storage extends Subsystem {
 	public void updateDashboard() {
 		SmartDashboard.putBoolean("Compressor Running", isCompressorRunning());
 		SmartDashboard.putBoolean("Frisbee Pushed", isPushingFrisbee());
-		SmartDashboard.putNumber("Frisbee Detector", frisbeeDetector.getVoltage());
+		SmartDashboard.putBoolean("Frisbee Detector", hasFrisbee());
 	}
 	
 	/**
@@ -114,6 +114,6 @@ public class Storage extends Subsystem {
 	 * 
 	 */
 	public boolean hasFrisbee() {
-		return (frisbeeDetector.getVoltage() >= 0.8);
+		return (frisbeeDetector.getVoltage() >= 1.5);
 	}
 }

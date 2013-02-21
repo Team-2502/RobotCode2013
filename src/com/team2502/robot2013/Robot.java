@@ -8,6 +8,7 @@
 package com.team2502.robot2013;
 
 
+import com.team2502.robot2013.commands.BackgroundLightUpdate;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,22 +23,26 @@ import com.team2502.robot2013.commands.CommandBase;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-    Command autonomousCommand;
+	
+    private Command autonomousCommand;
+	private Command lightUpdate;
 	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+        // Initialize all subsystems
+        CommandBase.init();
+		
         // instantiate the command used for the autonomous period
         autonomousCommand = new AutonomousCommand();
+		lightUpdate = new BackgroundLightUpdate();
 		
 		getWatchdog().setEnabled(false);
 		//getWatchdog().setExpiration(0.5);
-		
-        // Initialize all subsystems
-        CommandBase.init();
+		lightUpdate.setRunWhenDisabled(true);
+		lightUpdate.start();
     }
 	
     public void autonomousInit() {

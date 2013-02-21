@@ -28,7 +28,6 @@ public class  AutonomousCommand extends CommandGroup {
 		addSequential(new AutonomousSpeedDown());
 		
 		// Do a dance
-		if (OI.isDanceEnabled())
-			addSequential(new AutonomousDance());
+		addSequential(new AutonomousDance());
 	}
 }

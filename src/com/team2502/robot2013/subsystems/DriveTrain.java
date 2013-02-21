@@ -148,7 +148,10 @@ public class DriveTrain extends Subsystem {
 	 * @param speed The speed to drive at [-1, 1]
 	 */
 	public void driveForward(double speed) {
-		robotDrive.tankDrive(speed, speed);
+		frontLeft.set(-speed);
+		frontRight.set(speed);
+		backLeft.set(-speed);
+		backRight.set(speed);
 	}
 	
 	/**

@@ -4,6 +4,7 @@
  */
 package com.team2502.robot2013.commands.autonomous;
 
+import com.team2502.robot2013.OI;
 import com.team2502.robot2013.commands.CommandBase;
 
 /**
@@ -16,7 +17,7 @@ public class AutonomousDance extends CommandBase {
 	
 	public AutonomousDance() {
 		requires(driveTrain);
-		this.started = System.currentTimeMillis();
+		this.started = 0;
 	}
 	
 	// Called just before this Command runs the first time
@@ -26,9 +27,12 @@ public class AutonomousDance extends CommandBase {
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (System.currentTimeMillis() - started < 2500)
-			driveTrain.driveForward(-0.8);
-		else if (System.currentTimeMillis() - started < 4000)
+		if (started == 0) {
+			started = System.currentTimeMillis();
+		}
+		if (System.currentTimeMillis() - started < 1000)
+			driveTrain.driveForward(0.5);
+		else if (System.currentTimeMillis() - started < 2500)
 			driveTrain.dance();
 		else
 			driveTrain.danceSlow();
@@ -36,7 +40,7 @@ public class AutonomousDance extends CommandBase {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return !OI.isDanceEnabled();
 	}
 
 	// Called once after isFinished returns true

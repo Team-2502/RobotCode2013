@@ -25,6 +25,9 @@ public class RobotMap {
 	
 	
 	/* Shooter Constants */
+	public static final int SHOOTER_ARDUINO_PIN1     = 6; // Digital Output
+	public static final int SHOOTER_ARDUINO_PIN2     = 7; // Digital Output
+	public static final int SHOOTER_ARDUINO_PIN3     = 8; // Digital Output
 	public static final int SHOOTER_ENCODER_A        = 4; // Digital Input
 	public static final int SHOOTER_ENCODER_B        = 5; // Digital Input
 	public static final int SHOOTER_ANGLE_MOTOR      = 5; // PWM

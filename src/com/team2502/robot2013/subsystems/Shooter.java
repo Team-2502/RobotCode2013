@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.commands.shooter.ShooterUpdate;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Preferences;
@@ -25,8 +26,14 @@ public class Shooter extends Subsystem {
 	private Jaguar backWheel = new Jaguar(RobotMap.SHOOTER_BACK_WHEEL);
 	private Jaguar frontWheel = new Jaguar(RobotMap.SHOOTER_FRONT_WHEEL);
 	private PIDController anglePID = new PIDController(0.05, 0, 0, angleEncoder, angleMotor);
+	private DigitalOutput [] arduinoPins;
 	
 	public Shooter() {
+		arduinoPins = new DigitalOutput[3];
+		arduinoPins[0] = new DigitalOutput(RobotMap.SHOOTER_ARDUINO_PIN1);
+		arduinoPins[1] = new DigitalOutput(RobotMap.SHOOTER_ARDUINO_PIN2);
+		arduinoPins[2] = new DigitalOutput(RobotMap.SHOOTER_ARDUINO_PIN3);
+		
 		angleEncoder.setReverseDirection(true);
 		angleEncoder.setDistancePerPulse(1);
 		angleEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
@@ -157,13 +164,29 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
+	 * Set the shooter LED bit pins
+	 * @param mode The ShooterLightPin value
+	 */
+	public void setShooterLEDs(int mode) {
+		for (int i = 0; i < 3; i++) {
+			/*
+			 * Checking if i << 1 is set to non-zero
+			 * If i = 0, (1 << i) = 1
+			 * If i = 1, (1 << i) = 2
+			 * If i = 2, (1 << i) = 4
+			 */
+			arduinoPins[i].set((mode & (1 << i)) != 0);
+		}
+	}
+	
+	/**
 	 * A specific angling point the shooter goes to when specified.
 	 */
 	public static class ShooterPoint {
 		
 		private static final int FULL_DOWN = 50;
-		private static final int AUTONOMOUS = 260;
-		private static final int MIDDLE_PYRAMID = 440;
+		private static final int AUTONOMOUS = 290;
+		private static final int MIDDLE_PYRAMID = 505;
 		
 		private int rotations = 0;
 
@@ -210,5 +233,13 @@ public class Shooter extends Subsystem {
 			}
 			return name;
 		}
+	}
+	
+	public class ShooterLightPins {
+		public static final int OFF          = 0;
+		public static final int ON           = 1;
+		public static final int PULSE        = 2;
+		public static final int WAVE_FORWARD = 3;
+		public static final int WAVE_REVERSE = 4;
 	}
 }
