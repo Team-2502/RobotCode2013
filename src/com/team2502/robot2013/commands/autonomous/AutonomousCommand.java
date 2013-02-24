@@ -22,7 +22,7 @@ public class  AutonomousCommand extends CommandGroup {
 		addParallel(new AutonomousSpeedUp());
 		addSequential(new WaitCommand(3));
 		
-		addSequential(new AutonomousShootFrisbees(0.02, 1));
+		addSequential(new AutonomousShootFrisbees(0.05, 1));
 		
 		// Spins down the motors
 		addSequential(new AutonomousSpeedDown());
