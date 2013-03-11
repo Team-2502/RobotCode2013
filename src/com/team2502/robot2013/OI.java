@@ -13,7 +13,7 @@ import com.team2502.robot2013.commands.drive_train.SwitchDriveToJoysticks;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniBackward;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniForward;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToXbox;
-import com.team2502.robot2013.commands.lifter.ActivateLifter;
+import com.team2502.robot2013.commands.lifter.ToggleLifter;
 import com.team2502.robot2013.commands.shooter.ChangeAngleToAutonomous;
 import com.team2502.robot2013.commands.shooter.ChangeAngleToFullDown;
 import com.team2502.robot2013.commands.shooter.ChangeAngleToMiddlePyramid;
@@ -90,7 +90,7 @@ public class OI {
 		startCompressor[2].whileHeld(new StartCompressor());
 		
 		liftUp = new JoystickButton(shooter, 5);
-		liftUp.whileHeld(new ActivateLifter());
+		liftUp.whenPressed(new ToggleLifter());
 		
 		resetEncoder = new JoystickButton(shooter, 6);
 		resetEncoder.whenPressed(new ResetAngleEncoder());

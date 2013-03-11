@@ -13,7 +13,7 @@ import com.team2502.robot2013.commands.CommandBase;
 public class PushFrisbeeOut extends CommandBase {
 	
 	public PushFrisbeeOut() {
-		setTimeout(0.4);
+		setTimeout(0.2);
 		requires(storage);
 	}
 	

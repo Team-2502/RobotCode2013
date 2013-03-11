@@ -114,6 +114,6 @@ public class Storage extends Subsystem {
 	 * 
 	 */
 	public boolean hasFrisbee() {
-		return (frisbeeDetector.getVoltage() >= 1.5);
+		return (frisbeeDetector.getVoltage() >= 0.8);
 	}
 }

@@ -20,7 +20,7 @@ public class  AutonomousCommand extends CommandGroup {
 		
 		// Speeds up the shooter motors
 		addParallel(new AutonomousSpeedUp());
-		addSequential(new WaitCommand(3));
+		addSequential(new WaitCommand(5));
 		
 		addSequential(new AutonomousShootFrisbees(0.02, 1));
 		

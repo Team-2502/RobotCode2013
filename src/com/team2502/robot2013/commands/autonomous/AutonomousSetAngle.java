@@ -30,7 +30,8 @@ public class AutonomousSetAngle extends CommandBase {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return !shooter.isAnglePIDAtSetpoint();
+		//return !shooter.isAnglePIDAtSetpoint();
+		return true;
 	}
 	
 	// Called once after isFinished returns true
