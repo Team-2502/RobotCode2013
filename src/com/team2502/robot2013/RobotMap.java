@@ -37,6 +37,7 @@ public class RobotMap {
 	public static final int SHOOTER_ANGLE_MOTOR      = 5; // PWM
 	public static final int SHOOTER_FRONT_WHEEL      = 6; // PWM
 	public static final int SHOOTER_BACK_WHEEL       = 7; // PWM
+	public static final int SHOOTER_DEFENSE_FAN      = 10; // PWM
 	
 	/* Storage Constants */
 	public static final int STORAGE_DETECTOR         = 1; // Analog Channel

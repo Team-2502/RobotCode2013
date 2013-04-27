@@ -20,10 +20,11 @@ public class DriveWithJoystick extends CommandBase {
 	public DriveWithJoystick() {
 		requires(driveTrain);
 	}
-
+	
 	protected void initialize() {
+		
 	}
-
+	
 	protected void execute() {
 		if (OI.isXboxController()) {
 			driveTrain.driveTankWithXbox(OI.xboxController);
@@ -33,11 +34,11 @@ public class DriveWithJoystick extends CommandBase {
 		
 		driveTrain.updateDashboard();
 	}
-
+	
 	protected boolean isFinished() {
 		return false;
 	}
-
+	
 	protected void end() {
 	}
 
