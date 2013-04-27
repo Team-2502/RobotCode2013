@@ -18,7 +18,8 @@ public class Storage extends Subsystem {
 	private Compressor    compressor    = new Compressor(
 											RobotMap.STORAGE_PRESSURE_SWITCH,
 											RobotMap.STORAGE_COMPRESSOR_RELAY);
-	private Solenoid      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
+	private Solenoid        frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
+	private Solenoid       frisbeeEjector = new Solenoid(RobotMap.STORAGE_EJECTOR);
 	private AnalogChannel frisbeeDetector = new AnalogChannel(RobotMap.STORAGE_DETECTOR);
 	
 	public Storage() {
@@ -110,10 +111,21 @@ public class Storage extends Subsystem {
 	}
 	
 	/**
-	 * Has the frisbee if it is at 0.2
+	 * Has the frisbee if it is at 0.8
 	 * 
 	 */
 	public boolean hasFrisbee() {
 		return (frisbeeDetector.getVoltage() >= 0.8);
+	}
+	
+	/**
+	 * @return True if the frisbee ejector is activated
+	 */
+	public boolean isEjecting() {
+		return frisbeeEjector.get();
+	}
+	
+	public void frisbeeEjector(boolean ejected) {
+		frisbeeEjector.set(ejected);
 	}
 }

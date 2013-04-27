@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.team2502.robot2013.commands.autonomous;
+package com.team2502.robot2013.commands.storage;
 
 import com.team2502.robot2013.commands.CommandBase;
 
@@ -10,18 +10,10 @@ import com.team2502.robot2013.commands.CommandBase;
  *
  * @author Josh Larson
  */
-public class AutonomousShootFrisbees extends CommandBase {
+public class EjectFrisbees extends CommandBase {
 	
-	private long started;
-	private double holdFrisbee;
-	private double maxDelay;
-	
-	public AutonomousShootFrisbees(double holdFrisbee, double maxDelay) {
+	public EjectFrisbees() {
 		requires(storage);
-		requires(shooter);
-		this.started = System.currentTimeMillis();
-		this.holdFrisbee = holdFrisbee;
-		this.maxDelay = maxDelay;
 	}
 
 	// Called just before this Command runs the first time
@@ -31,28 +23,22 @@ public class AutonomousShootFrisbees extends CommandBase {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		shooter.startShooter();
-		long timeDiff = System.currentTimeMillis() - started;
-		if (timeDiff <= holdFrisbee * 1000) {
-			storage.pushFrisbee();
-		} else if (timeDiff >= maxDelay * 1000) {
-			started = System.currentTimeMillis();
-		} else {
-			storage.retractFrisbee();
-		}
+		storage.frisbeeEjector(true);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return !storage.hasFrisbee();
+		return false;
 	}
-	
+
 	// Called once after isFinished returns true
 	protected void end() {
+		storage.frisbeeEjector(false);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

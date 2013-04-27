@@ -4,7 +4,10 @@ import com.team2502.robot2013.commands.SetCompetitionVersion;
 import com.team2502.robot2013.commands.SetNormalVersion;
 import com.team2502.robot2013.commands.autonomous.DisableAutoDance;
 import com.team2502.robot2013.commands.autonomous.EnableAutoDance;
-import com.team2502.robot2013.commands.drive_train.HalfDriveWithJoystick;
+import com.team2502.robot2013.commands.drive_train.DriveWithJoystickTurbo;
+import com.team2502.robot2013.commands.wavers.MoveWingsLeft;
+import com.team2502.robot2013.commands.wavers.MoveWingsRight;
+import com.team2502.robot2013.commands.wavers.ResetToucher;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,14 +24,48 @@ import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
 import com.team2502.robot2013.commands.shooter.ResetAngleEncoder;
 import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
+import com.team2502.robot2013.commands.storage.EjectFrisbees;
 import com.team2502.robot2013.commands.storage.StartCompressor;
-import edu.wpi.first.wpilibj.buttons.InternalButton;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class OI {
-
+	/*
+	 * Button Map:
+	 *	Shooter:
+	 *		1)  Speed Up Shooter
+	 *		2)  Change Angle
+	 *		3)  Shoot Frisbee
+	 *		4)  Compressor
+	 *		5)  Lifter
+	 *		6)  Reset Encoder
+	 *		8)  Set Autonomous Angle
+	 *		10) Set Middle Pyramid Angle
+	 *		12) Set Full Down Angle
+	 *	Drive Train:
+	 *		1)  Pyramid Toucher
+	 *		4)  Compressor
+	 *		5)  Eject Frisbees
+	 */
+	
+	// Controlled by Both
+	private static final int JOYSTICK_COMPRESSOR = 4;
+	private static final int JOYSTICK_COMPRESSOR_DRIVER = 2;
+	// Controlled by Driver
+	private static final int JOYSTICK_SUPER_SPEED = 1;
+	private static final int JOYSTICK_PYRAMID_TOUCHER_LEFT = 4;
+	private static final int JOYSTICK_PYRAMID_TOUCHER_RIGHT = 5;
+	private static final int JOYSTICK_PYRAMID_TOUCHER_RESET = 3;
+	// Controlled by Shooter
+	private static final int JOYSTICK_EJECT_FRISBEES = 11;
 	private static final int JOYSTICK_SPEED_UP = 1;
 	private static final int JOYSTICK_CHANGE_ANGLE = 2;
 	private static final int JOYSTICK_SHOOT = 3;
+	private static final int JOYSTICK_LIFTER = 5;
+	private static final int JOYSTICK_RESET_ENCODER = 6;
+	private static final int JOYSTICK_SET_AUTO = 8;
+	private static final int JOYSTICK_SET_MIDDLE = 10;
+	private static final int JOYSTICK_SET_DOWN = 12;
+	
 	private static JoystickButton    angleAutonomousButton;
 	private static JoystickButton    angleMiddlePyramidButton;
 	private static JoystickButton    angleFullDownButton;
@@ -37,7 +74,12 @@ public class OI {
 	private static JoystickButton    shootFrisbee;
 	private static JoystickButton    liftUp;
 	private static JoystickButton    resetEncoder;
-	private static JoystickButton [] halfSpeed;
+	private static JoystickButton    ejectFrisbee;
+	private static JoystickButton [] superSpeed;
+	private static JoystickButton [] pyrToucherLeft;
+	private static JoystickButton [] pyrToucherRight;
+	private static JoystickButton [] pyrToucherReset;
+	private static JoystickButton [] resetToucher;
 	private static JoystickButton [] startCompressor;
 	private static SendableChooser   omniForward;
 	private static SendableChooser   competitionVersion;
@@ -55,48 +97,65 @@ public class OI {
 		right = new Joystick(3);
 		xboxController = new XboxController(left);
 		
-		initDashboard();
-		
-		angleAutonomousButton = new JoystickButton(shooter, 8);
+		angleAutonomousButton = new JoystickButton(shooter, JOYSTICK_SET_AUTO);
 		angleAutonomousButton.whenPressed(new ChangeAngleToAutonomous());
 		
-		angleMiddlePyramidButton = new JoystickButton(shooter, 10);
+		angleMiddlePyramidButton = new JoystickButton(shooter, JOYSTICK_SET_MIDDLE);
 		angleMiddlePyramidButton.whenPressed(new ChangeAngleToMiddlePyramid());
 		
-		angleFullDownButton = new JoystickButton(shooter, 12);
+		angleFullDownButton = new JoystickButton(shooter, JOYSTICK_SET_DOWN);
 		angleFullDownButton.whenPressed(new ChangeAngleToFullDown());
 		
-		halfSpeed = new JoystickButton[2];
-		halfSpeed[0] = new JoystickButton(left, 1);
-		halfSpeed[0].whileHeld(new HalfDriveWithJoystick());
-		halfSpeed[1] = new JoystickButton(right, 1);
-		halfSpeed[1].whileHeld(new HalfDriveWithJoystick());
+		pyrToucherLeft = new JoystickButton[2];
+		pyrToucherLeft[0] = new JoystickButton(left, JOYSTICK_PYRAMID_TOUCHER_LEFT);
+		pyrToucherLeft[0].whenPressed(new MoveWingsLeft());
+		pyrToucherLeft[1] = new JoystickButton(right, JOYSTICK_PYRAMID_TOUCHER_LEFT);
+		pyrToucherLeft[1].whenPressed(new MoveWingsLeft());
+		pyrToucherRight = new JoystickButton[2];
+		pyrToucherRight[0] = new JoystickButton(left, JOYSTICK_PYRAMID_TOUCHER_RIGHT);
+		pyrToucherRight[0].whenPressed(new MoveWingsRight());
+		pyrToucherRight[1] = new JoystickButton(right, JOYSTICK_PYRAMID_TOUCHER_RIGHT);
+		pyrToucherRight[1].whenPressed(new MoveWingsRight());
+		pyrToucherReset = new JoystickButton[2];
+		pyrToucherReset[0] = new JoystickButton(left, JOYSTICK_PYRAMID_TOUCHER_RESET);
+		pyrToucherReset[0].whenPressed(new ResetToucher());
+		pyrToucherReset[1] = new JoystickButton(right, JOYSTICK_PYRAMID_TOUCHER_RESET);
+		pyrToucherReset[1].whenPressed(new ResetToucher());
 		
-		shootButton = new JoystickButton(shooter, 1);
+		shootButton = new JoystickButton(shooter, JOYSTICK_SPEED_UP);
 		shootButton.whileHeld(new SpeedUpShooter());
 		
-		changeAngle = new JoystickButton(shooter, 2);
+		changeAngle = new JoystickButton(shooter, JOYSTICK_CHANGE_ANGLE);
 		changeAngle.whileHeld(new MoveShooterAngleUp());
 		
-		shootFrisbee = new JoystickButton(shooter, 3);
+		shootFrisbee = new JoystickButton(shooter, JOYSTICK_SHOOT);
 		shootFrisbee.whenPressed(new PushFrisbeeOut());
 		
 		startCompressor = new JoystickButton[3];
-		startCompressor[0] = new JoystickButton(left, 4);
+		startCompressor[0] = new JoystickButton(left, JOYSTICK_COMPRESSOR_DRIVER);
 		startCompressor[0].whileHeld(new StartCompressor());
-		startCompressor[1] = new JoystickButton(right, 4);
+		startCompressor[1] = new JoystickButton(right, JOYSTICK_COMPRESSOR_DRIVER);
 		startCompressor[1].whileHeld(new StartCompressor());
-		startCompressor[2] = new JoystickButton(shooter, 4);
+		startCompressor[2] = new JoystickButton(shooter, JOYSTICK_COMPRESSOR);
 		startCompressor[2].whileHeld(new StartCompressor());
 		
-		liftUp = new JoystickButton(shooter, 5);
+		liftUp = new JoystickButton(shooter, JOYSTICK_LIFTER);
 		liftUp.whenPressed(new ToggleLifter());
 		
-		resetEncoder = new JoystickButton(shooter, 6);
+		resetEncoder = new JoystickButton(shooter, JOYSTICK_RESET_ENCODER);
 		resetEncoder.whenPressed(new ResetAngleEncoder());
+		
+		ejectFrisbee = new JoystickButton(shooter, JOYSTICK_EJECT_FRISBEES);
+		ejectFrisbee.whileHeld(new EjectFrisbees());
+		
+		superSpeed = new JoystickButton[2];
+		superSpeed[0] = new JoystickButton(left, JOYSTICK_SUPER_SPEED);
+		superSpeed[0].whileHeld(new DriveWithJoystickTurbo());
+		superSpeed[1] = new JoystickButton(right, JOYSTICK_SUPER_SPEED);
+		superSpeed[1].whileHeld(new DriveWithJoystickTurbo());
 	}
 	
-	private static void initDashboard() {
+	public static void initDashboard() {
 		omniForward = new SendableChooser();
 		omniForward.addDefault("Omni Forward", new SwitchDriveToOmniForward());
 		omniForward.addObject("Omni Backward", new SwitchDriveToOmniBackward());

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.OI;
 import com.team2502.robot2013.XboxController;
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The drive train that will be moving the robot around.
@@ -20,11 +21,11 @@ public class DriveTrain extends Subsystem {
 	private double leftPower  = 0;
 	private double rightPower = 0;
 	
-	private Talon      frontLeft  = new Talon(RobotMap.DRIVETRAIN_TOP_LEFT);
-	private Talon      frontRight = new Talon(RobotMap.DRIVETRAIN_TOP_RIGHT);
-	private Talon      backLeft   = new Talon(RobotMap.DRIVETRAIN_BOTTOM_LEFT);
-	private Talon      backRight  = new Talon(RobotMap.DRIVETRAIN_BOTTOM_RIGHT);
-	private RobotDrive robotDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+	private Talon      frontLeft    = new Talon(RobotMap.DRIVETRAIN_TOP_LEFT);
+	private Talon      frontRight   = new Talon(RobotMap.DRIVETRAIN_TOP_RIGHT);
+	private Talon      backLeft     = new Talon(RobotMap.DRIVETRAIN_BOTTOM_LEFT);
+	private Talon      backRight    = new Talon(RobotMap.DRIVETRAIN_BOTTOM_RIGHT);
+	private RobotDrive robotDrive   = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
 	
 	public DriveTrain() {
 		robotDrive.setSafetyEnabled(false);
@@ -54,7 +55,7 @@ public class DriveTrain extends Subsystem {
 	 * @param left Left Joystick
 	 * @param right Right Joystick
 	 */
-	public void driveTank(Joystick left, Joystick right) {
+	public void driveTank(Joystick left, Joystick right, boolean turbo) {
 		leftPower  = left.getY() * -(left.getZ() - 1) / 2;
 		rightPower = right.getY() * -(right.getZ() - 1) / 2;
 		if (OI.isOmniForward()) {
@@ -62,19 +63,22 @@ public class DriveTrain extends Subsystem {
 			rightPower = -rightPower;
 		}
 		if (OI.isCompetitionVersion()) {
-			robotDrive.tankDrive(leftPower, rightPower, true);
+				if (turbo) frontLeft.set(leftPower); else frontLeft.set(0);
+				if (turbo) frontRight.set(-rightPower); else frontRight.set(0);
+				backLeft.set(leftPower);
+				backRight.set(-rightPower);
 		} else {
 			long diff = System.currentTimeMillis() - timeStarted;
 			SmartDashboard.putNumber("Debug", diff);
 			if (diff < 15000) {
-				frontLeft.set(-leftPower);
+				if (turbo) frontLeft.set(-leftPower);
 				frontRight.set(rightPower);
-				backLeft.set(0);
+				if (turbo) backLeft.set(0);
 				backRight.set(0);
 			} else {
-				frontLeft.set(0);
+				if (turbo) frontLeft.set(0);
 				frontRight.set(0);
-				backLeft.set(-leftPower);
+				if (turbo) backLeft.set(-leftPower);
 				backRight.set(rightPower);
 				if (diff >= 30000) {
 					timeStarted = System.currentTimeMillis();

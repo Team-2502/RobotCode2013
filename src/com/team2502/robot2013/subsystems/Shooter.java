@@ -1,5 +1,6 @@
 package com.team2502.robot2013.subsystems;
 
+import com.team2502.robot2013.PhotoelectricSensor;
 import com.team2502.robot2013.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Solenoid;
 
 /**
  * The Shooter subsystem to shoot frisbees into the target,
@@ -19,13 +21,18 @@ import edu.wpi.first.wpilibj.Preferences;
 public class Shooter extends Subsystem {
 
 	private double zeroedAngleValue = 0;
+	private long startShooting = 0;
 	private Encoder angleEncoder = new Encoder(
 			RobotMap.SHOOTER_ENCODER_A,
 			RobotMap.SHOOTER_ENCODER_B);
 	private Jaguar angleMotor = new Jaguar(RobotMap.SHOOTER_ANGLE_MOTOR);
 	private Jaguar backWheel = new Jaguar(RobotMap.SHOOTER_BACK_WHEEL);
 	private Jaguar frontWheel = new Jaguar(RobotMap.SHOOTER_FRONT_WHEEL);
+	private Solenoid photocoderPower = new Solenoid(2, RobotMap.SHOOTER_PHOTO_ENCODERPWR);
+	// ADDED
+	private PhotoelectricSensor photocoder = new PhotoelectricSensor(RobotMap.SHOOTER_PHOTO_ENCODER);
 	private PIDController anglePID = new PIDController(0.05, 0, 0, angleEncoder, angleMotor);
+	// PID [0.05, 0, 0]
 	private DigitalOutput [] arduinoPins;
 	
 	public Shooter() {
@@ -40,9 +47,11 @@ public class Shooter extends Subsystem {
 		angleEncoder.start();
 		//SmartDashboard.putBoolean("Shooter Angle PID", true);
 		anglePID.setInputRange(0, 1200);
-		anglePID.setPercentTolerance(5);
+		anglePID.setPercentTolerance(1);
 		anglePID.setContinuous(true);
 		angleSetToPoint(new ShooterPoint("FULL_DOWN"));
+		photocoder.start(); // ADDED 
+		photocoderPower.set(true);
 	}
 	
 	public void initDefaultCommand() {
@@ -55,6 +64,8 @@ public class Shooter extends Subsystem {
 	public void startShooter() {
 		frontWheel.set(1.0);
 		backWheel.set(1.0);
+		if (startShooting == 0)
+			startShooting = System.currentTimeMillis();
 	}
 
 	/**
@@ -63,6 +74,7 @@ public class Shooter extends Subsystem {
 	public void stopShooter() {
 		frontWheel.set(0);
 		backWheel.set(0);
+		startShooting = 0;
 	}
 	
 	/**
@@ -134,7 +146,7 @@ public class Shooter extends Subsystem {
 	public boolean isAnglePIDAtSetpoint() {
 		return anglePID.onTarget();
 	}
-
+	
 	/**
 	 * Returns true if the shooter is running at 30% speed or higher
 	 */
@@ -143,15 +155,27 @@ public class Shooter extends Subsystem {
 	}
 	
 	/**
+	 * Returns true if the shooter is running at 12 rotations per second or faster
+	 */
+	public boolean isShooterUpToSpeed() {
+		return photocoder.getAverageRate() >= 800;
+	}
+	
+	/**
 	 * Updates the SmartDashboard GUI with the Shooter data
 	 */
 	public void updateDashboard() {
+		long timeout = 3000 - (System.currentTimeMillis() - startShooting);
+		if (timeout < 0) timeout = 0;
 		SmartDashboard.putNumber("Front Shooter Wheel", frontWheel.get());
 		SmartDashboard.putNumber("Back Shooter Wheel", backWheel.get());
+		SmartDashboard.putNumber("Shooter Timeout: ", timeout);
 		//SmartDashboard.putData("Shooter Angle PID", anglePID);
 		//SmartDashboard.putData("Shooter Encoder", angleEncoder);
 		//SmartDashboard.putNumber("Current Angle Value", angleEncoder.getDistance());
 		SmartDashboard.putNumber("Angle Encoder", angleEncoder.getDistance());
+		SmartDashboard.putNumber("Front Wheel Encoder", photocoder.getAverageRate()); // ADDED
+		SmartDashboard.putBoolean("Shooter Spun Up", photocoder.getAverageRate() >= 600);
 	}
 	
 	/**
@@ -185,8 +209,8 @@ public class Shooter extends Subsystem {
 	public static class ShooterPoint {
 		
 		private static final int FULL_DOWN = 50;
-		private static final int AUTONOMOUS = 290;
-		private static final int MIDDLE_PYRAMID = 505;
+		private static final int AUTONOMOUS = 450;
+		private static final int MIDDLE_PYRAMID = 530;
 		
 		private int rotations = 0;
 

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import com.team2502.robot2013.commands.autonomous.AutonomousCommand;
 import com.team2502.robot2013.commands.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         // Initialize all subsystems
         CommandBase.init();
+		OI.initDashboard();
 		
         // instantiate the command used for the autonomous period
         autonomousCommand = new AutonomousCommand();

@@ -19,10 +19,15 @@ public class  AutonomousCommand extends CommandGroup {
 		addSequential(new AutonomousSetAngle());
 		
 		// Speeds up the shooter motors
-		addParallel(new AutonomousSpeedUp());
-		addSequential(new WaitCommand(5));
+		addParallel(new AutonomousSpeedUp()); // Initially spins up shooter motors
+		// Waits for the motors to spin up or it to "timeout", and
+		// waits for the angle to get to the setpoint
+		addSequential(new WaitOrShoot(5));
+		// Waits an extra second for good measure
+		addSequential(new WaitCommand(1));
 		
-		addSequential(new AutonomousShootFrisbees(0.05, 1));
+		// Shoots the frisbees
+		addSequential(new AutonomousShootFrisbees(0.2, 1));
 		
 		// Spins down the motors
 		addSequential(new AutonomousSpeedDown());

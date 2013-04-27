@@ -15,9 +15,9 @@ import com.team2502.robot2013.commands.CommandBase;
 /**
  *
  */
-public class DriveWithJoystick extends CommandBase {
+public class DriveWithJoystickTurbo extends CommandBase {
 
-	public DriveWithJoystick() {
+	public DriveWithJoystickTurbo() {
 		requires(driveTrain);
 	}
 

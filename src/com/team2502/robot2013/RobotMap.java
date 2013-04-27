@@ -22,6 +22,8 @@ public class RobotMap {
 	public static final int DRIVETRAIN_TOP_RIGHT     = 3; // PWM
 	public static final int DRIVETRAIN_BOTTOM_LEFT   = 4; // PWM
 	public static final int DRIVETRAIN_BOTTOM_RIGHT  = 2; // PWM
+	public static final int WAVERS_SERVO_LEFT    = 8; // PWM
+	public static final int WAVERS_SERVO_RIGHT   = 9; // PWM
 	
 	
 	/* Shooter Constants */
@@ -30,6 +32,8 @@ public class RobotMap {
 	public static final int SHOOTER_ARDUINO_PIN3     = 8; // Digital Output
 	public static final int SHOOTER_ENCODER_A        = 4; // Digital Input
 	public static final int SHOOTER_ENCODER_B        = 5; // Digital Input
+	public static final int SHOOTER_PHOTO_ENCODER    = 9; // Digital Input
+	public static final int SHOOTER_PHOTO_ENCODERPWR = 3; // Relay 24v
 	public static final int SHOOTER_ANGLE_MOTOR      = 5; // PWM
 	public static final int SHOOTER_FRONT_WHEEL      = 6; // PWM
 	public static final int SHOOTER_BACK_WHEEL       = 7; // PWM
@@ -39,6 +43,7 @@ public class RobotMap {
 	public static final int STORAGE_PRESSURE_SWITCH  = 1; // Digital Input
 	public static final int STORAGE_COMPRESSOR_RELAY = 1; // Relay
 	public static final int STORAGE_PUSHER           = 1; // Relay
+	public static final int STORAGE_EJECTOR          = 5; // Relay
 	
 	/* Lifter Constants */
 	public static final int LIFTER_SOLENOID_UP       = 4; // Relay
