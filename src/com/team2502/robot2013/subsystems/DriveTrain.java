@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.OI;
 import com.team2502.robot2013.XboxController;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Victor;
 
 /**
  * The drive train that will be moving the robot around.
@@ -26,6 +28,8 @@ public class DriveTrain extends Subsystem {
 	private Talon      backLeft     = new Talon(RobotMap.DRIVETRAIN_BOTTOM_LEFT);
 	private Talon      backRight    = new Talon(RobotMap.DRIVETRAIN_BOTTOM_RIGHT);
 	private RobotDrive robotDrive   = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+	//private Relay      defenseFan   = new Relay(RobotMap.DRIVETRAIN_DEFENSE_FAN);
+	private Talon      defenseFan   = new Talon(RobotMap.DRIVETRAIN_DEFENSE_FAN);
 	
 	public DriveTrain() {
 		robotDrive.setSafetyEnabled(false);
@@ -167,8 +171,30 @@ public class DriveTrain extends Subsystem {
 		robotDrive.tankDrive(speed * (right ? 1 : -1), speed * (right ? -1 : 1));
 	}
 	
+	/**
+	 * Start spinning the fan
+	 */
+	public void startFan() {
+		//defenseFan.set(Relay.Value.kForward);
+		defenseFan.set(1);
+	}
+	
+	/**
+	 * Stops spinning the fan
+	 */
+	public void stopFan() {
+		//defenseFan.set(Relay.Value.kOff);
+		defenseFan.set(0);
+	}
+	
+	public boolean isFanStarted() {
+		//return defenseFan.get() != Relay.Value.kOff;
+		return defenseFan.get() != 0;
+	}
+	
 	public void updateDashboard() {
 		SmartDashboard.putNumber("Left Drive Wheel", leftPower);
 		SmartDashboard.putNumber("Right Drive Wheel", rightPower);
+		SmartDashboard.putNumber("Fan", defenseFan.get());
 	}
 }

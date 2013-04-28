@@ -34,7 +34,6 @@ public class Shooter extends Subsystem {
 	private PhotoelectricSensor photocoder = new PhotoelectricSensor(RobotMap.SHOOTER_PHOTO_ENCODER);
 	private PIDController anglePID = new PIDController(0.05, 0, 0, angleEncoder, angleMotor);
 	// PID [0.05, 0, 0]
-	private Talon defenseFan = new Talon(RobotMap.SHOOTER_DEFENSE_FAN);
 	private DigitalOutput [] arduinoPins;
 	
 	public Shooter() {
@@ -139,13 +138,6 @@ public class Shooter extends Subsystem {
 	 */
 	public void stopAnglePID() {
 		anglePID.disable();
-	}
-	
-	/**
-	 * Start spinning the fan
-	 */
-	public void startFan() {
-		defenseFan.set(1);
 	}
 
 	/**

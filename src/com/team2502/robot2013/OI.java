@@ -5,6 +5,7 @@ import com.team2502.robot2013.commands.SetNormalVersion;
 import com.team2502.robot2013.commands.autonomous.DisableAutoDance;
 import com.team2502.robot2013.commands.autonomous.EnableAutoDance;
 import com.team2502.robot2013.commands.drive_train.DriveWithJoystickTurbo;
+import com.team2502.robot2013.commands.drive_train.ToggleFan;
 import com.team2502.robot2013.commands.wavers.MoveWingsLeft;
 import com.team2502.robot2013.commands.wavers.MoveWingsRight;
 import com.team2502.robot2013.commands.wavers.ResetToucher;
@@ -51,6 +52,7 @@ public class OI {
 	private static final int JOYSTICK_COMPRESSOR = 4;
 	private static final int JOYSTICK_COMPRESSOR_DRIVER = 2;
 	// Controlled by Driver
+	private static final int JOYSTICK_FAN = 7;
 	private static final int JOYSTICK_SUPER_SPEED = 1;
 	private static final int JOYSTICK_PYRAMID_TOUCHER_LEFT = 4;
 	private static final int JOYSTICK_PYRAMID_TOUCHER_RIGHT = 5;
@@ -75,6 +77,7 @@ public class OI {
 	private static JoystickButton    liftUp;
 	private static JoystickButton    resetEncoder;
 	private static JoystickButton    ejectFrisbee;
+	private static JoystickButton [] startFan;
 	private static JoystickButton [] superSpeed;
 	private static JoystickButton [] pyrToucherLeft;
 	private static JoystickButton [] pyrToucherRight;
@@ -130,6 +133,12 @@ public class OI {
 		
 		shootFrisbee = new JoystickButton(shooter, JOYSTICK_SHOOT);
 		shootFrisbee.whenPressed(new PushFrisbeeOut());
+		
+		startFan = new JoystickButton[2];
+		startFan[0] = new JoystickButton(left, JOYSTICK_FAN);
+		startFan[0].whenPressed(new ToggleFan());
+		startFan[1] = new JoystickButton(left, JOYSTICK_FAN);
+		startFan[1].whenPressed(new ToggleFan());
 		
 		startCompressor = new JoystickButton[3];
 		startCompressor[0] = new JoystickButton(left, JOYSTICK_COMPRESSOR_DRIVER);

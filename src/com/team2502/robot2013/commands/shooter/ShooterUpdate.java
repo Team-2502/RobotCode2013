@@ -22,7 +22,6 @@ public class ShooterUpdate extends CommandBase {
 	}
 	
 	protected void execute() {
-		shooter.startFan();
 		shooter.stopShooter();
 		shooter.updateDashboard();
 	}
