@@ -222,6 +222,10 @@ public class Shooter extends Subsystem {
 		public ShooterPoint() {
 			
 		}
+		
+		public ShooterPoint(int rotations) {
+			this.rotations = rotations;
+		}
 
 		public ShooterPoint(String name) {
 			if (name.compareTo("FULL_DOWN") == 0)

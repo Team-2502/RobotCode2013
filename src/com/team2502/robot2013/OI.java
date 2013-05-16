@@ -27,6 +27,7 @@ import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
 import com.team2502.robot2013.commands.storage.EjectFrisbees;
 import com.team2502.robot2013.commands.storage.StartCompressor;
+import com.team2502.robot2013.commands.vision.ForcedVisionUpdate;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class OI {
@@ -58,6 +59,7 @@ public class OI {
 	private static final int JOYSTICK_PYRAMID_TOUCHER_RIGHT = 5;
 	private static final int JOYSTICK_PYRAMID_TOUCHER_RESET = 3;
 	// Controlled by Shooter
+	private static final int JOYSTICK_FORCE_VISION = 9;
 	private static final int JOYSTICK_EJECT_FRISBEES = 11;
 	private static final int JOYSTICK_SPEED_UP = 1;
 	private static final int JOYSTICK_CHANGE_ANGLE = 2;
@@ -77,6 +79,7 @@ public class OI {
 	private static JoystickButton    liftUp;
 	private static JoystickButton    resetEncoder;
 	private static JoystickButton    ejectFrisbee;
+	private static JoystickButton    forceVision;
 	private static JoystickButton [] startFan;
 	private static JoystickButton [] superSpeed;
 	private static JoystickButton [] pyrToucherLeft;
@@ -156,6 +159,9 @@ public class OI {
 		
 		ejectFrisbee = new JoystickButton(shooter, JOYSTICK_EJECT_FRISBEES);
 		ejectFrisbee.whileHeld(new EjectFrisbees());
+		
+		forceVision = new JoystickButton(shooter, JOYSTICK_FORCE_VISION);
+		forceVision.whileHeld(new ForcedVisionUpdate());
 		
 		superSpeed = new JoystickButton[2];
 		superSpeed[0] = new JoystickButton(left, JOYSTICK_SUPER_SPEED);
