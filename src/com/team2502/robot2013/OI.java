@@ -25,8 +25,9 @@ import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
 import com.team2502.robot2013.commands.shooter.ResetAngleEncoder;
 import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
-import com.team2502.robot2013.commands.storage.EjectFrisbees;
 import com.team2502.robot2013.commands.storage.StartCompressor;
+import com.team2502.robot2013.commands.tshirtlauncher.ToggleCompressTShirt;
+import com.team2502.robot2013.commands.tshirtlauncher.LaunchTShirt;
 import com.team2502.robot2013.commands.vision.ForcedVisionUpdate;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -53,14 +54,15 @@ public class OI {
 	private static final int JOYSTICK_COMPRESSOR = 4;
 	private static final int JOYSTICK_COMPRESSOR_DRIVER = 2;
 	// Controlled by Driver
+	private static final int JOYSTICK_TSHIRT_COMPRESS = 11;
+	private static final int JOYSTICK_TSHIRT_LAUNCH1 = 1;
+	private static final int JOYSTICK_TSHIRT_LAUNCH2 = 1;
 	private static final int JOYSTICK_FAN = 7;
-	private static final int JOYSTICK_SUPER_SPEED = 1;
 	private static final int JOYSTICK_PYRAMID_TOUCHER_LEFT = 4;
 	private static final int JOYSTICK_PYRAMID_TOUCHER_RIGHT = 5;
 	private static final int JOYSTICK_PYRAMID_TOUCHER_RESET = 3;
 	// Controlled by Shooter
 	private static final int JOYSTICK_FORCE_VISION = 9;
-	private static final int JOYSTICK_EJECT_FRISBEES = 11;
 	private static final int JOYSTICK_SPEED_UP = 1;
 	private static final int JOYSTICK_CHANGE_ANGLE = 2;
 	private static final int JOYSTICK_SHOOT = 3;
@@ -78,8 +80,10 @@ public class OI {
 	private static JoystickButton    shootFrisbee;
 	private static JoystickButton    liftUp;
 	private static JoystickButton    resetEncoder;
-	private static JoystickButton    ejectFrisbee;
 	private static JoystickButton    forceVision;
+	private static JoystickButton    launchTShirt1;
+	private static JoystickButton    launchTShirt2;
+	private static JoystickButton [] compressTShirt;
 	private static JoystickButton [] startFan;
 	private static JoystickButton [] superSpeed;
 	private static JoystickButton [] pyrToucherLeft;
@@ -96,7 +100,7 @@ public class OI {
 	public static Joystick right;
 	public static Joystick shooter;
 	public static XboxController xboxController;
-
+	
 	public static void init() {
 		shooter = new Joystick(1);
 		left = new Joystick(2);
@@ -157,17 +161,20 @@ public class OI {
 		resetEncoder = new JoystickButton(shooter, JOYSTICK_RESET_ENCODER);
 		resetEncoder.whenPressed(new ResetAngleEncoder());
 		
-		ejectFrisbee = new JoystickButton(shooter, JOYSTICK_EJECT_FRISBEES);
-		ejectFrisbee.whileHeld(new EjectFrisbees());
-		
 		forceVision = new JoystickButton(shooter, JOYSTICK_FORCE_VISION);
 		forceVision.whileHeld(new ForcedVisionUpdate());
 		
-		superSpeed = new JoystickButton[2];
-		superSpeed[0] = new JoystickButton(left, JOYSTICK_SUPER_SPEED);
-		superSpeed[0].whileHeld(new DriveWithJoystickTurbo());
-		superSpeed[1] = new JoystickButton(right, JOYSTICK_SUPER_SPEED);
-		superSpeed[1].whileHeld(new DriveWithJoystickTurbo());
+		launchTShirt1 = new JoystickButton(left, JOYSTICK_TSHIRT_LAUNCH1);
+		launchTShirt1.whenPressed(new LaunchTShirt(1, 0.25));
+		
+		launchTShirt2 = new JoystickButton(right, JOYSTICK_TSHIRT_LAUNCH2);
+		launchTShirt2.whenPressed(new LaunchTShirt(2, 0.25));
+		
+		compressTShirt = new JoystickButton[2];
+		compressTShirt[0] = new JoystickButton(left, JOYSTICK_TSHIRT_COMPRESS);
+		compressTShirt[0].whenPressed(new ToggleCompressTShirt());
+		compressTShirt[1] = new JoystickButton(right, JOYSTICK_TSHIRT_COMPRESS);
+		compressTShirt[1].whenPressed(new ToggleCompressTShirt());
 	}
 	
 	public static void initDashboard() {

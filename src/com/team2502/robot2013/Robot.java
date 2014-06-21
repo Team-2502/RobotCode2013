@@ -8,13 +8,14 @@
 package com.team2502.robot2013;
 
 
+import com.team2502.robot2013.black_box.BlackBoxProtocol;
 import com.team2502.robot2013.commands.BackgroundLightUpdate;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import com.team2502.robot2013.commands.autonomous.AutonomousCommand;
 import com.team2502.robot2013.commands.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalOutput;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	
+	private BlackBoxProtocol protocol;
     private Command autonomousCommand;
 	private Command lightUpdate;
 	
@@ -45,6 +47,8 @@ public class Robot extends IterativeRobot {
 		//getWatchdog().setExpiration(0.5);
 		lightUpdate.setRunWhenDisabled(true);
 		lightUpdate.start();
+		BlackBoxProtocol.initialize();
+		BlackBoxProtocol.start(new String[]{"10.25.2.5"}, 1180, 25);
     }
 	
     public void autonomousInit() {

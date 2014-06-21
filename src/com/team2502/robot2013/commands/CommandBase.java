@@ -20,12 +20,13 @@ public abstract class CommandBase extends Command {
 	
 	public static OI oi;
 	// Create a single static instance of all of your subsystems
-	protected static DriveTrain driveTrain = new DriveTrain();
-	protected static Shooter    shooter    = new Shooter();
-	protected static Storage    storage    = new Storage();
-	protected static Lifter     lifter     = new Lifter();
-	protected static Wavers     wavers     = new Wavers();
-	protected static Vision     vision     = new Vision();
+	protected static DriveTrain     driveTrain     = new DriveTrain();
+	protected static Shooter        shooter        = new Shooter();
+	protected static Storage        storage        = new Storage();
+	protected static Lifter         lifter         = new Lifter();
+	protected static Wavers         wavers         = new Wavers();
+	protected static Vision         vision         = new Vision();
+	protected static TShirtLauncher tshirtLauncher = new TShirtLauncher();
 	
 	public static void init() {
 		// This MUST be here. If the OI creates Commands (which it very likely
@@ -43,6 +44,7 @@ public abstract class CommandBase extends Command {
 		SmartDashboard.putData(lifter);
 		SmartDashboard.putData(wavers);
 		SmartDashboard.putData(vision);
+		SmartDashboard.putData(tshirtLauncher);
 	}
 	
 	public CommandBase(String name) {

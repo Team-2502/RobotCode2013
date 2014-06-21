@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team2502.robot2013.subsystems;
 
 import com.team2502.robot2013.commands.vision.VisionUpdate;
@@ -11,12 +7,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.image.BinaryImage;
 import edu.wpi.first.wpilibj.image.ColorImage;
 import edu.wpi.first.wpilibj.image.CriteriaCollection;
-import edu.wpi.first.wpilibj.image.MonoImage;
 import edu.wpi.first.wpilibj.image.NIVision.MeasurementType;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.util.Vector;
 
 /**
  *
@@ -24,8 +17,13 @@ import java.util.Vector;
  */
 public class Vision extends Subsystem {
 	
-	private final int greenLow = 240;
+	private final boolean enableVision = false;
+	private final int redLow = 153;
+	private final int redHigh = 255;
+	private final int greenLow = 212;
 	private final int greenHigh = 255;
+	private final int blueLow = 0;
+	private final int blueHigh = 255;
 	
 	private AxisCamera camera;
 	private CriteriaCollection cc;
@@ -39,38 +37,51 @@ public class Vision extends Subsystem {
 	}
 	
 	public Vision() {
-		camera = AxisCamera.getInstance("10.25.2.11");
+		if (enableVision) camera = AxisCamera.getInstance("10.25.2.11");
 		lastFrame = System.currentTimeMillis();
 		frameProcess = 0;
 		cc = new CriteriaCollection();
-		distanceReg = new Regression(1, 1); // y = x + 1
-		angleReg = new Regression(4, 3, 2); // y = 4x^2 + 3x + 2
+		cc.addCriteria(MeasurementType.IMAQ_MT_AREA, 3000, 6000, false);
+		distanceReg = new Regression(0.0000086131992, -0.0893246981, 244.5414525); // a, b, c
+		angleReg = new Regression(15.32142857, -565.2928571, 5720.678571); // a, b, c
 		SmartDashboard.putNumber("Angle Regression Constant", angleReg.getConstant());
 	}
 	
 	public VisionTarget [] processFrame() {
-		lastFrame = System.currentTimeMillis();
-		try {
-			ColorImage image   = camera.getImage();
-			BinaryImage bImage = image.thresholdRGB(0, 255, greenLow, greenHigh, 0, 255);
-			BinaryImage fImage = bImage.particleFilter(cc);
-			ParticleAnalysisReport [] report = fImage.getOrderedParticleAnalysisReports();
-			VisionTarget [] targets = new VisionTarget[report.length];
-			for (int i = 0; i < report.length; i++) {
-				double centerX = report[i].center_mass_x;
-				double centerY = report[i].center_mass_y;
-				double width = report[i].boundingRectWidth;
-				double height = report[i].boundingRectHeight;
-				targets[i] = new VisionTarget(centerX, centerY, width, height);
+		if (enableVision) {
+			lastFrame = System.currentTimeMillis();
+			try {
+				ColorImage image   = camera.getImage();
+				BinaryImage bImage = image.thresholdRGB(
+						redLow, redHigh,
+						greenLow, greenHigh,
+						blueLow, blueHigh);
+				BinaryImage fImage = bImage.particleFilter(cc);
+				ParticleAnalysisReport [] report = fImage.getOrderedParticleAnalysisReports();
+				VisionTarget [] targets = new VisionTarget[report.length];
+				for (int i = 0; i < report.length; i++) {
+					double centerX = report[i].center_mass_x;
+					double centerY = report[i].center_mass_y;
+					double width = report[i].boundingRectWidth;
+					double height = report[i].boundingRectHeight;
+					int area = (int)report[i].particleArea;
+					targets[i] = new VisionTarget(centerX, centerY, width, height, area);
+				}
+				frameProcess = System.currentTimeMillis() - lastFrame;
+				image.free();
+				bImage.free();
+				fImage.free();
+				return targets;
+			} catch (AxisCameraException e) {
+				System.out.println("No Image From Camera: ");
+				frameProcess = System.currentTimeMillis() - lastFrame;
+				return new VisionTarget[0];
+			} catch (Exception ex) {
+				System.out.println("Camera Exception Thrown: " + ex.getMessage());
+				frameProcess = System.currentTimeMillis() - lastFrame;
+				return new VisionTarget[0];
 			}
-			frameProcess = System.currentTimeMillis() - lastFrame;
-			image.free();
-			bImage.free();
-			fImage.free();
-			return targets;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			frameProcess = System.currentTimeMillis() - lastFrame;
+		} else { // Vision is not enabled
 			return new VisionTarget[0];
 		}
 	}
@@ -83,11 +94,11 @@ public class Vision extends Subsystem {
 		return (int)frameProcess;
 	}
 	
-	public int getDistanceRegression(VisionTarget target) {
-		return (int)distanceReg.getRegression(target.getArea());
+	public double getDistanceRegression(VisionTarget target) {
+		return distanceReg.getRegression(target.getArea());
 	}
 	
-	public int getAngleRegression(int distance) {
+	public int getAngleRegression(double distance) {
 		double constant = angleReg.getConstant();
 		constant = SmartDashboard.getNumber("Angle Regression Constant", constant);
 		angleReg.setConstant(constant);
@@ -106,13 +117,15 @@ public class Vision extends Subsystem {
 		private Point2D top_right;
 		private Point2D bottom_left;
 		private Point2D bottom_right;
+		private int area;
 		private int width;
 		private int height;
 		private int type;
 		
-		public VisionTarget(double centerX, double centerY, double width, double height) {
+		public VisionTarget(double centerX, double centerY, double width, double height, int area) {
 			this.width   = (int)width;
 			this.height  = (int)height;
+			this.area    = area;
 			center       = new Point2D(centerX, centerY);
 			top_left     = new Point2D(centerX - width/2, centerY - height/2);
 			top_right    = new Point2D(centerX + width/2, centerY - height/2);
@@ -141,7 +154,7 @@ public class Vision extends Subsystem {
 		}
 		
 		public int getArea() {
-			return width * height;
+			return area;
 		}
 		
 		public Point2D getTopLeft() {

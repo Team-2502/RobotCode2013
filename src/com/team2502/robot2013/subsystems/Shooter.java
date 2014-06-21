@@ -47,7 +47,7 @@ public class Shooter extends Subsystem {
 		angleEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
 		angleEncoder.start();
 		//SmartDashboard.putBoolean("Shooter Angle PID", true);
-		anglePID.setInputRange(0, 1200);
+		anglePID.setInputRange(0, 1400);
 		anglePID.setPercentTolerance(1);
 		anglePID.setContinuous(true);
 		angleSetToPoint(new ShooterPoint("FULL_DOWN"));
@@ -210,8 +210,8 @@ public class Shooter extends Subsystem {
 	public static class ShooterPoint {
 		
 		private static final int FULL_DOWN = 50;
-		private static final int AUTONOMOUS = 450;
-		private static final int MIDDLE_PYRAMID = 530;
+		private static final int AUTONOMOUS = 214;
+		private static final int MIDDLE_PYRAMID = 300;
 		
 		private int rotations = 0;
 

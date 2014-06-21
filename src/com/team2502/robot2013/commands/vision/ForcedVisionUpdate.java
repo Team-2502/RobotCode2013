@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ForcedVisionUpdate extends CommandBase {
 	
+	private double average = 0;
+	
 	public ForcedVisionUpdate() {
 		requires(vision);
 	}
@@ -28,17 +30,26 @@ public class ForcedVisionUpdate extends CommandBase {
 	protected void execute() {
 		if (System.currentTimeMillis() - vision.lastFrame() >= 300) {
 			VisionTarget [] targets = vision.processFrame();
-			if (targets.length > 0) {
-				for (int i = 0; i < targets.length; i++) {
-					if (targets[i].getType() == Vision.TargetType.TOP_TARGET) {
-						int distance = vision.getDistanceRegression(targets[i]);
-						int angle = vision.getAngleRegression(distance);
-						String debug = "Distance: " + distance + "    Angle: " + angle;
-						SmartDashboard.putString("Debug", debug);
-						shooter.angleSetToPoint(new ShooterPoint(angle));
-					}
-				}
+			String debug = "";
+			int angle = 0;
+			for (int i = 0; i < targets.length; i++) {
+				//if (targets[i].getType() == Vision.TargetType.TOP_TARGET) {
+					double distance = vision.getDistanceRegression(targets[i]);
+						angle = vision.getAngleRegression(distance);
+						if (average == 0)
+							average = angle;
+						else
+							average = angle * 0.2 + average * 0.8;
+						
+						debug += "Distance: " + distance/* + "    Average: " + average + "    "*/;
+						debug += /*"Angle: " + average + */"    Area: " + targets[i].getArea() + "    ";
+				//}
 			}
+			if (angle != 0) {
+				shooter.angleSetToPoint(new ShooterPoint((int)average));
+				//shooter.startAnglePID();
+			}
+			SmartDashboard.putString("Debug", debug);
 		}
 	}
 

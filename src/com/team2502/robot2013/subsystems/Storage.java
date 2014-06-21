@@ -1,5 +1,6 @@
 package com.team2502.robot2013.subsystems;
 
+import com.team2502.robot2013.DoubleCompressor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -15,16 +16,21 @@ import edu.wpi.first.wpilibj.AnalogChannel;
  */
 public class Storage extends Subsystem {
 	
-	private Compressor    compressor    = new Compressor(
-											RobotMap.STORAGE_PRESSURE_SWITCH,
-											RobotMap.STORAGE_COMPRESSOR_RELAY);
-	private Solenoid        frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
-	private Solenoid       frisbeeEjector = new Solenoid(RobotMap.STORAGE_EJECTOR);
-	private AnalogChannel frisbeeDetector = new AnalogChannel(RobotMap.STORAGE_DETECTOR);
+	private Compressor                       compressor = new Compressor(
+															RobotMap.STORAGE_PRESSURE_SWITCH,
+															RobotMap.STORAGE_COMPRESSOR_RELAY_3);
+	private DoubleCompressor secondaryCompressionSystem = new DoubleCompressor(
+															RobotMap.STORAGE_PRESSURE_SWITCH_2,
+															RobotMap.STORAGE_COMPRESSOR_RELAY,
+															RobotMap.STORAGE_COMPRESSOR_RELAY_2);
+	private Solenoid                      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
+	private AnalogChannel               frisbeeDetector = new AnalogChannel(RobotMap.STORAGE_DETECTOR);
 	
 	public Storage() {
 		if (!compressor.enabled())
 			compressor.start();
+		if (!secondaryCompressionSystem.enabled())
+			secondaryCompressionSystem.start();
 	}
 	
 	public void initDefaultCommand() {
@@ -32,10 +38,7 @@ public class Storage extends Subsystem {
 	}
 	
 	public void update() {
-		if (compressor.getPressureSwitchValue())
-			compressor.stop();
-		else
-			compressor.start();
+		
 	}
 	
 	public void updateDashboard() {
@@ -69,17 +72,10 @@ public class Storage extends Subsystem {
 	}
 	
 	/**
-	 * Returns true if the program should compress the compressor
-	 */
-	public boolean shouldCompress() {
-		return !compressor.getPressureSwitchValue();
-	}
-	
-	/**
 	 * Returns true if the compressor is running
 	 */
 	public boolean isCompressorRunning() {
-		return compressor.enabled();
+		return compressor.enabled() || secondaryCompressionSystem.enabled();
 	}
 	
 	/**
@@ -87,6 +83,7 @@ public class Storage extends Subsystem {
 	 */
 	public void startCompressor() {
 		compressor.start();
+		secondaryCompressionSystem.start();
 	}
 	
 	/**
@@ -94,6 +91,7 @@ public class Storage extends Subsystem {
 	 */
 	public void stopCompressor() {
 		compressor.stop();
+		secondaryCompressionSystem.stop();
 	}
 	
 	/**
@@ -101,6 +99,7 @@ public class Storage extends Subsystem {
 	 */
 	public void turnCompressorOn() {
 		compressor.setRelayValue(Value.kForward);
+		secondaryCompressionSystem.setRelayValue(Value.kForward);
 	}
 	
 	/**
@@ -108,6 +107,7 @@ public class Storage extends Subsystem {
 	 */
 	public void turnCompressorOff() {
 		compressor.setRelayValue(Value.kOff);
+		secondaryCompressionSystem.setRelayValue(Value.kOff);
 	}
 	
 	/**
@@ -116,16 +116,5 @@ public class Storage extends Subsystem {
 	 */
 	public boolean hasFrisbee() {
 		return (frisbeeDetector.getVoltage() >= 0.8);
-	}
-	
-	/**
-	 * @return True if the frisbee ejector is activated
-	 */
-	public boolean isEjecting() {
-		return frisbeeEjector.get();
-	}
-	
-	public void frisbeeEjector(boolean ejected) {
-		frisbeeEjector.set(ejected);
 	}
 }
