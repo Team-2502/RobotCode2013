@@ -24,7 +24,7 @@ public class MoveShooterAngleDown extends CommandBase {
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		shooter.angleDown(OI.shooter.getY());
+		shooter.angleDown(OI.right.getY());
 		shooter.updateDashboard();
 	}
 	

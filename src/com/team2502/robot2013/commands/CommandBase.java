@@ -24,9 +24,7 @@ public abstract class CommandBase extends Command {
 	protected static Shooter        shooter        = new Shooter();
 	protected static Storage        storage        = new Storage();
 	protected static Lifter         lifter         = new Lifter();
-	protected static Wavers         wavers         = new Wavers();
 	protected static Vision         vision         = new Vision();
-	protected static TShirtLauncher tshirtLauncher = new TShirtLauncher();
 	
 	public static void init() {
 		// This MUST be here. If the OI creates Commands (which it very likely
@@ -42,9 +40,7 @@ public abstract class CommandBase extends Command {
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(storage);
 		SmartDashboard.putData(lifter);
-		SmartDashboard.putData(wavers);
 		SmartDashboard.putData(vision);
-		SmartDashboard.putData(tshirtLauncher);
 	}
 	
 	public CommandBase(String name) {

@@ -10,10 +10,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.OI;
 import com.team2502.robot2013.XboxController;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Victor;
-
 /**
  * The drive train that will be moving the robot around.
  */
@@ -23,11 +19,11 @@ public class DriveTrain extends Subsystem {
 	private double leftPower  = 0;
 	private double rightPower = 0;
 	
-	private Talon      frontLeft    = new Talon(RobotMap.DRIVETRAIN_TOP_LEFT);
-	private Talon      frontRight   = new Talon(RobotMap.DRIVETRAIN_TOP_RIGHT);
-	private Talon      backLeft     = new Talon(RobotMap.DRIVETRAIN_BOTTOM_LEFT);
-	private Talon      backRight    = new Talon(RobotMap.DRIVETRAIN_BOTTOM_RIGHT);
-	private RobotDrive robotDrive   = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+	private Talon      topLeft    = new Talon(RobotMap.DRIVETRAIN_TOP_LEFT);
+	private Talon      topRight   = new Talon(RobotMap.DRIVETRAIN_TOP_RIGHT);
+	private Talon      bottomLeft     = new Talon(RobotMap.DRIVETRAIN_BOTTOM_LEFT);
+	private Talon      bottomRight    = new Talon(RobotMap.DRIVETRAIN_BOTTOM_RIGHT);
+	private RobotDrive robotDrive   = new RobotDrive(topLeft, bottomLeft, topRight, bottomRight);
 	//private Relay      defenseFan   = new Relay(RobotMap.DRIVETRAIN_DEFENSE_FAN);
 	private Talon      defenseFan   = new Talon(RobotMap.DRIVETRAIN_DEFENSE_FAN);
 	
@@ -59,7 +55,7 @@ public class DriveTrain extends Subsystem {
 	 * @param left Left Joystick
 	 * @param right Right Joystick
 	 */
-	public void driveTank(Joystick left, Joystick right, boolean turbo) {
+	public void driveTank(Joystick right, Joystick left) {
 		leftPower  = left.getY() * -(left.getZ() - 1) / 2;
 		rightPower = right.getY() * -(right.getZ() - 1) / 2;
 		if (OI.isOmniForward()) {
@@ -67,29 +63,20 @@ public class DriveTrain extends Subsystem {
 			rightPower = -rightPower;
 		}
 		if (OI.isCompetitionVersion()) {
-				if (turbo) frontLeft.set(leftPower); else frontLeft.set(0);
-				if (turbo) frontRight.set(-rightPower); else frontRight.set(0);
-				backLeft.set(leftPower);
-				backRight.set(-rightPower);
-		} else {
-			long diff = System.currentTimeMillis() - timeStarted;
-			SmartDashboard.putNumber("Debug", diff);
-			if (diff < 15000) {
-				if (turbo) frontLeft.set(-leftPower);
-				frontRight.set(rightPower);
-				if (turbo) backLeft.set(0);
-				backRight.set(0);
-			} else {
-				if (turbo) frontLeft.set(0);
-				frontRight.set(0);
-				if (turbo) backLeft.set(-leftPower);
-				backRight.set(rightPower);
-				if (diff >= 30000) {
-					timeStarted = System.currentTimeMillis();
-				}
-			}
+				bottomLeft.set(leftPower);
+                                topLeft.set(leftPower);
+
+                                bottomRight.set(-rightPower);
+                                topRight.set(-rightPower);
 		}
 	}
+        
+       
+	public void driveArcade(Joystick joy) {
+                boolean squared = true;
+		double y = joy.getY() * (squared ? Math.abs(joy.getY()) : 1);
+		double z = joy.getZ() * (squared ? Math.abs(joy.getZ()) : 1);
+        }
 	
 	public void driveTankSlow(Joystick left, Joystick right) {
 		leftPower  = left.getY() * .75;
@@ -156,10 +143,10 @@ public class DriveTrain extends Subsystem {
 	 * @param speed The speed to drive at [-1, 1]
 	 */
 	public void driveForward(double speed) {
-		frontLeft.set(-speed);
-		frontRight.set(speed);
-		backLeft.set(-speed);
-		backRight.set(speed);
+		topLeft.set(-speed);
+		topRight.set(speed);
+		bottomLeft.set(-speed);
+		bottomRight.set(speed);
 	}
 	
 	/**

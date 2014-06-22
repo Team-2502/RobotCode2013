@@ -16,15 +16,15 @@ import edu.wpi.first.wpilibj.AnalogChannel;
  */
 public class Storage extends Subsystem {
 	
-	private Compressor                       compressor = new Compressor(
+	private Compressor compressor = new Compressor(
 															RobotMap.STORAGE_PRESSURE_SWITCH,
 															RobotMap.STORAGE_COMPRESSOR_RELAY_3);
 	private DoubleCompressor secondaryCompressionSystem = new DoubleCompressor(
 															RobotMap.STORAGE_PRESSURE_SWITCH_2,
 															RobotMap.STORAGE_COMPRESSOR_RELAY,
 															RobotMap.STORAGE_COMPRESSOR_RELAY_2);
-	private Solenoid                      frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
-	private AnalogChannel               frisbeeDetector = new AnalogChannel(RobotMap.STORAGE_DETECTOR);
+	private Solenoid frisbeePusher = new Solenoid(RobotMap.STORAGE_PUSHER);
+	private AnalogChannel frisbeeDetector = new AnalogChannel(RobotMap.STORAGE_DETECTOR);
 	
 	public Storage() {
 		if (!compressor.enabled())

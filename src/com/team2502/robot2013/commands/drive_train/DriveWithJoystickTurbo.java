@@ -28,7 +28,7 @@ public class DriveWithJoystickTurbo extends CommandBase {
 		if (OI.isXboxController()) {
 			driveTrain.driveTankWithXbox(OI.xboxController);
 		} else {
-			driveTrain.driveTank(OI.left, OI.right, true);
+			driveTrain.driveTank(OI.left, OI.right);
 		}
 		
 		driveTrain.updateDashboard();
