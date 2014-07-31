@@ -4,32 +4,35 @@ import com.team2502.robot2013.commands.SetCompetitionVersion;
 import com.team2502.robot2013.commands.SetNormalVersion;
 import com.team2502.robot2013.commands.autonomous.DisableAutoDance;
 import com.team2502.robot2013.commands.autonomous.EnableAutoDance;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToJoysticks;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniBackward;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToOmniForward;
 import com.team2502.robot2013.commands.drive_train.SwitchDriveToXbox;
 import com.team2502.robot2013.commands.lifter.ToggleLifter;
+import com.team2502.robot2013.commands.shooter.MoveShooterAngleDown;
 import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
 import com.team2502.robot2013.commands.shooter.ResetAngleEncoder;
-import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
+import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.storage.StartCompressor;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI {
 	
         private static final int JOYSTICK_COMPRESSOR_DRIVER = 2;
 	private static final int JOYSTICK_SPIN_UP_SHOOTER = 1;
-	private static final int JOYSTICK_CHANGE_ANGLE = 2;
+	private static final int JOYSTICK_ANGLE_UP = 3;
+        private static final int JOYSTICK_ANGLE_DOWN = 2;
 	private static final int JOYSTICK_SHOOT = 1;
 	private static final int JOYSTICK_LIFTER = 4;
 	private static final int JOYSTICK_RESET_ENCODER = 3;
 	
 	private static JoystickButton    shootButton;
-	private static JoystickButton    changeAngle;
+	private static JoystickButton    angleUp;
+        private static JoystickButton    angleDown;
 	private static JoystickButton    shootFrisbee;
 	private static JoystickButton    liftUp;
 	private static JoystickButton    resetEncoder;
@@ -50,11 +53,13 @@ public class OI {
                 		
 		shootButton = new JoystickButton(left, JOYSTICK_SPIN_UP_SHOOTER);
 		shootButton.whileHeld(new SpeedUpShooter());
-		
-//                new MoveShooterAngleUp();
-		changeAngle = new JoystickButton(right, JOYSTICK_CHANGE_ANGLE);
-		changeAngle.whenReleased(new MoveShooterAngleUp());
-		
+                
+                angleUp = new JoystickButton(left, JOYSTICK_ANGLE_UP);
+                angleUp.whileHeld(new MoveShooterAngleUp());
+              
+                angleDown = new JoystickButton(left, JOYSTICK_ANGLE_DOWN);
+		angleDown.whileHeld(new MoveShooterAngleDown());
+                
 		shootFrisbee = new JoystickButton(right, JOYSTICK_SHOOT);
 		shootFrisbee.whenPressed(new PushFrisbeeOut());
 				

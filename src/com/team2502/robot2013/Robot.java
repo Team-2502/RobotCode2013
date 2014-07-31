@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import com.team2502.robot2013.commands.autonomous.AutonomousCommand;
 import com.team2502.robot2013.commands.CommandBase;
-import edu.wpi.first.wpilibj.DigitalOutput;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,9 +25,9 @@ import edu.wpi.first.wpilibj.DigitalOutput;
  */
 public class Robot extends IterativeRobot {
 	
-	private BlackBoxProtocol protocol;
+    private BlackBoxProtocol protocol;
     private Command autonomousCommand;
-	private Command lightUpdate;
+    private Command lightUpdate;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -48,7 +47,7 @@ public class Robot extends IterativeRobot {
 		lightUpdate.setRunWhenDisabled(true);
 		lightUpdate.start();
 		BlackBoxProtocol.initialize();
-		BlackBoxProtocol.start(new String[]{"10.25.2.5"}, 1180, 25);
+		BlackBoxProtocol.start(new String[]{"10.24.85.5"}, 1180, 25);
     }
 	
     public void autonomousInit() {

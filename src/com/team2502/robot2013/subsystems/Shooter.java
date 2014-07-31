@@ -89,22 +89,16 @@ public class Shooter extends Subsystem {
 	 * Start moving the shooter to angle up.
 	 * @param speed The speed to move the shooter up [1, 3]
 	 */
-	public void angleUp(double speed) {
-		if (anglePID.isEnable()) {
-			anglePID.disable();
-		}
-		angleMotor.set(speed);
+	public void angleUp() {
+		angleMotor.set(1.0);
 	}
 
 	/**
 	 * Start moving the shooter to angle down.
 	 * @param speed The speed to move the shooter down [1, 3]
 	 */
-	public void angleDown(double speed) {
-		if (anglePID.isEnable()) {
-			anglePID.disable();
-		}
-		angleMotor.set(-1 * speed);
+	public void angleDown() {
+		angleMotor.set(-1.0);
 	}
 
 	/**

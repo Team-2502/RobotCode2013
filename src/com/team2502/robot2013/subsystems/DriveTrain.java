@@ -55,20 +55,17 @@ public class DriveTrain extends Subsystem {
 	 * @param left Left Joystick
 	 * @param right Right Joystick
 	 */
-	public void driveTank(Joystick right, Joystick left) {
-		leftPower  = left.getY() * -(left.getZ() - 1) / 2;
-		rightPower = right.getY() * -(right.getZ() - 1) / 2;
+	public void driveTank(Joystick left, Joystick right) {
+		rightPower  = left.getY() * -(left.getZ() - 1) / 2 * Math.abs(left.getY());         //these are backwords because josh. trust me they are correct as is :)
+		leftPower = right.getY() * -(right.getZ() - 1) / 2 * Math.abs(right.getY());        //squared joystick made by michael and untested
 		if (OI.isOmniForward()) {
 			leftPower  = -leftPower;
 			rightPower = -rightPower;
 		}
-		if (OI.isCompetitionVersion()) {
-				bottomLeft.set(leftPower);
-                                topLeft.set(leftPower);
-
-                                bottomRight.set(-rightPower);
-                                topRight.set(-rightPower);
-		}
+		bottomLeft.set(leftPower);
+                topLeft.set(leftPower);
+                bottomRight.set(-rightPower);
+                topRight.set(-rightPower);
 	}
         
        

@@ -15,7 +15,6 @@ public class MoveShooterAngleUp extends CommandBase {
 	
 	public MoveShooterAngleUp() {
 		requires(shooter);
-                requires(driveTrain);
 	}
 
 	// Called just before this Command runs the first time
@@ -25,7 +24,7 @@ public class MoveShooterAngleUp extends CommandBase {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		shooter.angleUp(-OI.right.getRawAxis(6));
+		shooter.angleUp();
 		shooter.updateDashboard();
 	}
 	

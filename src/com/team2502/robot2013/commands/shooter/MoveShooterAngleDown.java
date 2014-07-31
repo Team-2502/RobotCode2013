@@ -9,22 +9,22 @@ import com.team2502.robot2013.commands.CommandBase;
 
 /**
  *
- * @author Josh Larson
+ * @author josh
  */
 public class MoveShooterAngleDown extends CommandBase {
 	
 	public MoveShooterAngleDown() {
 		requires(shooter);
 	}
-	
+
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		shooter.startManualAiming();
 	}
-	
+
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		shooter.angleDown(OI.right.getY());
+		shooter.angleDown();
 		shooter.updateDashboard();
 	}
 	
@@ -32,7 +32,7 @@ public class MoveShooterAngleDown extends CommandBase {
 	protected boolean isFinished() {
 		return false;
 	}
-
+	
 	// Called once after isFinished returns true
 	protected void end() {
 		shooter.stopManualAiming();

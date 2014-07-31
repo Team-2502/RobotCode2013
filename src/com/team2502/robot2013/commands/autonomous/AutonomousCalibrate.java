@@ -19,7 +19,7 @@ public class AutonomousCalibrate extends CommandBase {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		shooter.angleDown(1);
+		shooter.angleDown();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
