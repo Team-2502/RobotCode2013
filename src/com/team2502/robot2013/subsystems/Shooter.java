@@ -77,7 +77,15 @@ public class Shooter extends Subsystem {
 		backWheel.set(0);
 		startShooting = 0;
 	}
-	
+        
+        /**
+         * Slow down and stop the Shooter
+         */
+	public void slowDownShooter() {
+            frontWheel.set(-.05);
+            backWheel.set(-.05);
+        }
+        
 	/**
 	 * Reset the angle determined by the encoder 
 	 */
