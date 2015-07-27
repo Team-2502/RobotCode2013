@@ -13,6 +13,7 @@ import com.team2502.robot2013.commands.shooter.MoveShooterAngleDown;
 import com.team2502.robot2013.commands.shooter.MoveShooterAngleUp;
 import com.team2502.robot2013.commands.shooter.ResetAngleEncoder;
 import com.team2502.robot2013.commands.shooter.SpeedUpShooter;
+import com.team2502.robot2013.commands.shooter.TestSlowDownShooter;
 import com.team2502.robot2013.commands.storage.PushFrisbeeOut;
 import com.team2502.robot2013.commands.storage.StartCompressor;
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,8 +30,10 @@ public class OI {
 	private static final int JOYSTICK_SHOOT = 1;
 	private static final int JOYSTICK_LIFTER = 4;
 	private static final int JOYSTICK_RESET_ENCODER = 3;
+        private static final int JOYSTICK_TEST_SLOW_COMMAND = 2;
 	
 	private static JoystickButton    shootButton;
+        private static JoystickButton    testSlowCommand;
 	private static JoystickButton    angleUp;
         private static JoystickButton    angleDown;
 	private static JoystickButton    shootFrisbee;
@@ -53,6 +56,9 @@ public class OI {
                 		
 		shootButton = new JoystickButton(left, JOYSTICK_SPIN_UP_SHOOTER);
 		shootButton.whileHeld(new SpeedUpShooter());
+                
+                testSlowCommand = new JoystickButton(right, JOYSTICK_TEST_SLOW_COMMAND);
+                testSlowCommand.whenPressed(new TestSlowDownShooter());
                 
                 angleUp = new JoystickButton(left, JOYSTICK_ANGLE_UP);
                 angleUp.whileHeld(new MoveShooterAngleUp());

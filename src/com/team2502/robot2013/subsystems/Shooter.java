@@ -79,6 +79,12 @@ public class Shooter extends Subsystem {
 	}
         
         /**
+         * If shooter is stopped
+         */
+        public boolean isShooterStopped() {
+            return Math.abs(frontWheel.get()) < .05;
+        }
+        /**
          * Slow down and stop the Shooter
          */
 	public void slowDownShooter() {
